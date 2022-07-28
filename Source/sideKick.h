@@ -8,9 +8,8 @@
 
 Timer sk_timer = Timer();
 SideKickState<> state_info = SideKickState<>();
-Orientation ori = Orientation(state_info.ypr);
 void SideKick(){
-Serial.begin(9600);
+Serial.begin(115200);
 actuators::init();
 sensors::init();
 }
