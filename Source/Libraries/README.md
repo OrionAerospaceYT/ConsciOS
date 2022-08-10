@@ -123,5 +123,17 @@ Returns the earth relative accelertation given the axial acceleration and the tw
 ```
 sk_math::FASTINVSQ(number);
 ```
-The fast inverse squareroot formula in C++. Calculates the inverse square root of a number 
+The fast inverse squareroot formula in C++. Calculates the inverse square root of a number.
 more info: https:/www.tutorialspoint.com/fast-inverse-square-root-in-cplusplus/
+
+
+<h2>
+<a href = "link"> vector.h </a>
+</h2>
+
+Three dimensional template based vector. 
+
+```
+Vec<> my_vector
+ 
+
