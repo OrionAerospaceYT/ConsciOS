@@ -1,7 +1,6 @@
 # Sidekick Libraries 
 
 ## Various libraries with common robotics utility. 
-## YAY
 
 <h2>
 <a href = "link"> Common.h </a>
@@ -14,7 +13,7 @@ assert(condition,message);
 ``` 
 If the condition is true the terminal will print the file and line that has failed, along with a user specified message (expected string) passed in as message. This will then hang the code indefinitely to prevent any further errors. 
 
-example:
+Example:
 ```
 assert(denominator != 0, "Divide by 0 assert!");
 ```
@@ -50,6 +49,7 @@ Contains common and useful math functionality. Wrapped in namespace sk_math to a
 sk_math::CLAMP(value,low,high);
 ```
 Ensures the returned value is between the bounds. If the value is outside of these bounds it will return the nearest bound. 
+
 Example:
 ```
 float my_value = 42.0;
@@ -98,4 +98,30 @@ sk_math::SMOOTHLERP(start,finish,interpolation_point);
 ```
 Used exactly the same as LERP, but with a smoothing function to make the interpolation less robotic. More info can be found here: https://gamedevbeginner.com/the-right-way-to-lerp-in-unity-with-examples/
 
+```
+sk_math::QUADBEZIER2D(point1, point2, point3, step);
+```
+Returns the quadratic bezier value between the the 3 points at a specified step/interpolation point. 
 
+Example:
+```
+Vec<float> p1 = Vec<float>(1,1);
+Vec<float> p2 = Vec<float>(3,6);
+Vec<float> p3 = Vec<float>(5,2);
+for(float step = 0; step <= 10; step += 0.1){
+    auto output = sk_math::QUADBEZIER2D(p1, p2, p3, step);
+    }
+```
+Here the output is the quadratic bezier interpolation over 0.1 steps from 0 to 10 with the guide points of [1,1], [3,6], [5,2] 
+
+
+```
+sk_math::EARTHA(accel, phi, theta);
+```
+Returns the earth relative accelertation given the axial acceleration and the two non-axial Euler angles of the IMU.
+
+```
+sk_math::FASTINVSQ(number);
+```
+The fast inverse squareroot formula in C++. Calculates the inverse square root of a number 
+more info: https:/www.tutorialspoint.com/fast-inverse-square-root-in-cplusplus/
