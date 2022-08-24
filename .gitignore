@@ -4,6 +4,10 @@ __pycache__/
 *$py.class
 
 
+#VS CODE 
+.vscode/
+.DS_Store
+
 # Ignore Saves And Projects
 Projects/
 SavedData/
