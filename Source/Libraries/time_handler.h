@@ -17,5 +17,6 @@ if(finish_t == 0){stop();}
 return (finish_t - start_t) / 1000000.0f; }
 void count(){cycles++;}
 uint32_t getCycles(){return cycles;}
-float getTime(){return start_t / 1000000.0f;}
+unsigned long getUpTime(){return micros() / 1000000.0;}
+unsigned long getTime(){return (micros() - start_t) / 1000000.0;}
 };

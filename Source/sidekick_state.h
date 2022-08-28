@@ -14,6 +14,7 @@ struct SideKickState {
 	Vec<T> vel_br; //body relative axis rates
 	Vec<T> accel_br; //body relative axis accelerations
 	int current_task;
+	unsigned long current_task_time;
 };
 
 

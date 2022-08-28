@@ -13,6 +13,10 @@ void init(){
 
 }
 
+void update(){
+
+
+}
 
 }//namespace Sensors
 

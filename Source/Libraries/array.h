@@ -34,7 +34,11 @@ struct Array {
     constexpr Array(const Args&... args) : data{args...} {}
     constexpr Array() : data{} {}
     T get(int i){
-	return data[i];
+        if(i < 0 || i > Size){
+            return data[Size];
+        }else {
+            return data[i];
+        }
     }
 
     operator String(){
@@ -46,7 +50,11 @@ struct Array {
 	    return ret;
     }
     T operator [](int i){
-	return data[i];
+        if(i < 0 || i > Size){
+            return data[Size];
+        }else {
+            return data[i];
+        }
     }
     iterator begin(){return iterator(&data[0]);} 
     iterator end(){return iterator(&data[Size]);} 

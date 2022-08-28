@@ -39,7 +39,7 @@ namespace task{
 
 	//Code that loops
 	void Loop(){
-
+		PRINT("LOOP");
 	}
 
 }
