@@ -6,7 +6,6 @@
 template <typename R>
 struct Iterator 
     {
-        using difference_type   = std::ptrdiff_t;
         using value_type        = R;
         using pointer           = R*;
         using reference         = R&;

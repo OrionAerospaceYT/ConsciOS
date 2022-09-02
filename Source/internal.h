@@ -1,6 +1,5 @@
 #pragma once
 
-
 //-----Internals------
 #include "./Libraries/common.h"
 #include "sidekick.h"
@@ -12,13 +11,12 @@ namespace sm{
 	// DO NOT TOUCH
 	void SM_UPDATE_LOOP(){
 		taskSchedule();
-		//const auto& task = TaskFlow[state_info.current_task];
-		//task();
 		END_LOG;
 	}
 
 	void SM_INIT(){
 		SideKick();
+		taskInit();
 	}
 //------INTERNAL-----
 }//ns sm

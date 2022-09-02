@@ -20,7 +20,8 @@ static bool assertCheck(bool condition, std::string file, int line) {
 
 //Arduino assert condition
 #define assert(condition, message) internal::assertionCheck(condition, #condition, __FILE__, __LINE__, message);
-
+//functions like an assert but wont hang the code will simple raise a flag on execution
+#define warn(condition, message) internal::warnCheck(condition, #condition, __FILE__, __LINE__, message);
 
 
 // Graphing macros
@@ -42,6 +43,19 @@ static bool assertionCheck(bool condition, String conditionS, String file, int l
   PRINT(message);
   PRINT("-------------------------");
   while (true) {}
+  return false;
+}
+static bool warnCheck(bool condition, String conditionS, String file, int line, String message) {
+  if (condition) {
+    return true;
+  }
+  PRINT("-------------------------");
+  PRINT("Warning");
+  PRINT("Condition: " + conditionS);
+  PRINT("File: " + file);
+  PRINT("Line: " + String(line));
+  PRINT(message);
+  PRINT("-------------------------");
   return false;
 }
 }

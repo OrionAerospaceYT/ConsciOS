@@ -21,25 +21,24 @@ namespace task{
 	//Can be used for code that only runs once
 	//This can also be run multiple times by changing the code flow in main.h
 	void Setup(){
-		// wating for macros
-		PRINT("SETUP");
+		subtask::exampleLongFunc();
 	}
 
 	//Can be used to automatically test actuators
 	//Very useful for quick plug and play testing
 	void ActuatorTest(){
 
-		PRINT("AT");
+
 	}
 
 	//Can be used to print sensor values and any other required calibration
 	void Calibration(){
-		PRINT("CALIB");
+
 	}
 
 	//Code that loops
 	void Loop(){
-		PRINT("LOOP");
+
 	}
 
 }
