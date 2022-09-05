@@ -4,9 +4,8 @@
 
 
 
-//assert that size > 1
-template <typename T,typename R,size_t Size>
-struct SensorGroup {
+template <typename T,typename R, size_t Size>
+struct SensorGroup : Array<T,Size> {
     Array<T,Size> a;
     Array<R,Size> r;
     template <typename ...Args>

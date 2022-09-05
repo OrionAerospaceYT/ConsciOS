@@ -121,8 +121,7 @@ struct Vec {
     //BLA Matrix conversions
     template <typename S>
     Vec fromMat(const S &mat){
-	assert(mat.Cols == 1, "Matrix must have only 1 column");
-	return Vec(mat(0),mat(1),mat(2));
+	    return Vec(mat(0),mat(1),mat(2));
     }
     template <typename S>
     S toMat(const S &mat){

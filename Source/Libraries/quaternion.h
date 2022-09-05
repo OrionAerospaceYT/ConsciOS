@@ -154,7 +154,6 @@ struct Quat {
   //BLA Matrix conversions
   template <typename S>
   Quat<T> fromMat(const S &mat){
-	  assert(mat.Cols == 1, "Matrix must have only 1 column");
 	  return Quat(mat(0),mat(1),mat(2),mat(3));
   }
   template <typename S>

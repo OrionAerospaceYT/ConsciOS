@@ -4,6 +4,8 @@
 #include "./libraries/time_handler.h"
 #include "sidekick_state.h"
 #include "./libraries/orientation.h"
+#include "actuators.h"
+#include "sensors.h"
 //------Internals----
 
 Timer sk_timer = Timer();
