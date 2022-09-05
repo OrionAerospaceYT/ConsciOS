@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "./libraries/common.h"
+#include "common.h"
 
 
 //This is where we place long functions or repeated code

@@ -1,7 +1,7 @@
 #pragma once
 
 //-----Internals------
-#include "./Libraries/common.h"
+#include "common.h"
 #include "sidekick.h"
 #include "task_flow.h"
 //-----Internals------

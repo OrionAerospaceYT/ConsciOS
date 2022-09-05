@@ -1,9 +1,9 @@
 #pragma once 
 
 //------Internals----
-#include "./libraries/time_handler.h"
+#include "time_handler.h"
 #include "sidekick_state.h"
-#include "./libraries/orientation.h"
+#include "orientation.h"
 #include "actuators.h"
 #include "sensors.h"
 //------Internals----

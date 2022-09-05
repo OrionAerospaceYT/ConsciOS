@@ -1,7 +1,7 @@
 #pragma once
 
-#include "./libraries/common.h"
-#include "./libraries/vector.h"
+#include "common.h"
+#include "vector.h"
 
 
 
