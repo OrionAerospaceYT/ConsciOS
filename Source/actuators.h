@@ -1,9 +1,9 @@
 #pragma once
 
 //-----Internals------
-#include "./libraries/common.h"
-#include "./libraries/actuator_struct.h"
-//#include "./libraries/InternalDefs.h"
+#include "common.h"
+#include "actuator_struct.h"
+//#include "InternalDefs.h"
 //-----Internals------
 
 

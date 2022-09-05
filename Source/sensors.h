@@ -1,7 +1,7 @@
 #pragma once 
 //-----Internals------
-#include "./libraries/common.h"
-#include "./libraries/sensor_struct.h"
+#include "sensor_struct.h"
+#include "common.h"
 //-----Internals------
 
 

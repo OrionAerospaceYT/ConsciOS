@@ -2,9 +2,9 @@
 
 
 //-----Internals------
-#include "./Libraries/common.h"
-#include "./Libraries/array.h"
-#include "./Libraries/transition_map.h"
+#include "common.h"
+#include "array.h"
+#include "transition_map.h"
 #include "task.h"
 //-----Internals------
 
