@@ -131,9 +131,164 @@ more info: https:/www.tutorialspoint.com/fast-inverse-square-root-in-cplusplus/
 <a href = "link"> vector.h </a>
 </h2>
 
-Three dimensional template based vector. 
+Three dimensional template based vector. Vector values are always in the order xyz. 
+
+Constructors
+```
+Vec<> my_vector; //initializes a vector with 3 float values at 0,0,0
+Vec<int> my_vector2(1,3,4); //initializes a vector of type int with the passed values
+Vec<> my_2d_vector(-3.3,5); //automatically sets the z value to 0 and assigns the x and y values for a 2d vector 
+Vec<> my_vector3(my_vector2); //a vector can be created from another vector 
+```
+
+Accessing components
 
 ```
-Vec<> my_vector
- 
+auto vector_x = my_vector.x //using .x or .y or .z can access the component parts of a vector 
 
+float vector_y = my_vector[1]; //works like array access 0 being x, 1 y and 2 z 
+
+auto vector_z = my_vector.get(0); //much like arrray .get can be used too
+```
+
+Element-wise operations (all common operations *,/,+,-,*=,/= are covered)
+
+```
+Vec<> new_vector = my_vector * 10.0f;//multiplies eac element by 10.0f  
+
+new_vector /= 10.0f; 
+```
+
+Vector to Vector 
+
+```
+auto new_vector = my_vector - my_vector2; //element wise vector to vector for +,-,/ and +=, /=
+my_vector /= new_vector;
+
+auto cross_product = new_vector * my_vector //computes and returns the cross product between two vectors 
+
+auto dot_product = my_vector.dot(cross_product); //computes and returns the dot product of two vectors
+```
+
+to BLA Matrix or to Array
+
+```
+BLA::Matrix<3,1>A = {0,0,0};
+my_vector.fromMat(A);
+
+A = my_vector.toMat(A);
+
+Array<float,3> B;
+my_vector.fromArr(B);
+
+B = my_vector.toArr(B);
+```
+Boolean operators for vector to vector exist for <,>,==, !=
+```
+bool my_bool = my_vector > 3.0f;//checks elemet-wise if the vector is larger or less than a value 
+
+if(my_vector == my_vector2){
+    PRINT("vectors are equal");
+}
+```
+
+Misc. 
+
+```
+float magnitude = my_vector.magnitude(); //returns the magnitude of the vector 
+
+my_vector.normalize(); //converts the vector into a unit vector 
+
+my_vector.toDegrees();
+my_vector.toRadians(); //easy access to convert a vector 
+```
+
+<h2>
+<a href= 'link'>quaternion.h</a>
+</h2>
+
+4 dimensional template based quaternion. Values always in w,i,j,k order.
+
+Constructors 
+```
+Quat<> my_quat; //initializes quat of type float with values 1,0,0,0
+Quat<> my_quat2(0.71,0,0.71,0); 
+Quat<> my_quat3(my_quat2); //a quaternion can be created from another quaternion
+
+```
+Accessing components 
+```
+auto real_component = my_quat.w; //usin .w, .i, .j, .k components of the quat can be accessed 
+
+float i = my_quat[1]; // values can also be acccessed like in arrays 
+
+auto j = my_quat.get(2);// or using .get(index)
+
+```
+
+Element-wise element wise for all basic type operators (*,/,+,-,*=,/=)
+```
+auto new_quat = my_quat * 10.0f;
+
+new_quat /= 10.0f;
+```
+
+Quaternion to Quaternion operations
+
+```
+auto cross_product = my_quat * my_quat2; //quaternion cross product
+
+auto div = my_quat / my_quat2; // Division is just multiplication by the multiplicative inverse 
+
+auto new_quat = my_quat + cross_product; // quat to quat exists for +,-,+=,-=
+```
+Bool Operations 
+
+bool operations exist for <,> to basic type or ==, != for quat to quat
+
+```
+bool my_bool = my_quat < -10.0f;
+
+if(my_quat != my_quat2){
+    PRINT("quats not equal");
+}
+
+```
+
+Quaternion to vectors and Euler Angle conversions 
+
+```
+float* c_style_arr = my_quat.toEuler();//converts a quat to a array of euler angles 
+
+my_vector = my_quat.toEulerVector(my_vector);
+
+my_quat_rate = my_quat.fromAngularRate(my_rate_vector); // the input rate must be in rad/s
+
+my_quat = my_quat.fromEuler(my_vector); //euler angles to quaternion 
+
+my_quat = my_quat.fromEuler(0.15f,0.1f,0.0f); 
+
+```
+Quaternion to BLA Matrix and Array 
+
+```
+BLA::Matrix<3,1> A = {0,0,0};
+my_quat = my_quat.fromMat(A);
+
+A = my_quat.toMat(A);
+
+Array<float,3> B;
+my_quat = my_quat.fromArr(B);
+
+B = my_quat.toArr(B);
+
+```
+
+Misc.
+
+```
+float magnitude = my_quat.magnitude();
+
+auto squared = my_quat.square();
+
+my_quat.normalize();//converts the quat to a unit quaternion 

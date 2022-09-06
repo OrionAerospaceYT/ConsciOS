@@ -28,6 +28,29 @@ struct Quat {
   	return String(w) + "," + String(i) + "," + String(j) + "," + String(k);
     }
 
+  T operator[](int p){
+      if(p == 0){
+          return w;
+      }else if(p == 1){
+          return i;
+      }else if(p == 2){
+          return j;
+      }else if(p == 3){
+          return k;
+      }
+    }
+
+    T get(int p){
+      if(p == 0){
+          return w;
+      }else if(p == 1){
+          return i;
+      }else if(p == 2){
+          return j;
+      }else if(p == 3){
+          return k;
+      }
+    }
 
   //Basic Types
   template <typename S>
@@ -101,6 +124,14 @@ struct Quat {
   bool operator!= (const Quat<S>& q) {
     return !(w == q.w && i == q.i && j == q.j && k == q.k);
   }
+  template <typename S>
+  bool operator <(const S f) {
+      return (x < f || y < f || z < f);
+  }
+  template <typename S>
+  bool operator >(const S f) {
+      return (x > f || y > f || z > f);
+  }
 
 
   //Convert to Euler Angles array
@@ -164,6 +195,21 @@ struct Quat {
 	mat(3) = k;
 	return mat;
   }
+
+  template <typename S>
+  Quat<T> fromArr(const S &mat){
+	  return Quat(mat[0],mat[1],mat[2],mat[3]);
+  }
+  template <typename S>
+  S toArr(S &mat){
+	mat[0] = w;
+	mat[1] = i;
+	mat[2] = j;
+	mat[3] = k;
+	return mat;
+  }
+
+
 
   T magnitude() {
     return sqrt(w * w + i * i + j * j + k * k);

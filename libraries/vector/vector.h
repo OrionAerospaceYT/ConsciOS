@@ -9,6 +9,7 @@ struct Vec {
     T z = 0;
     Vec(T a, T b, T c) : x(a), y(b), z(c) {}
     Vec(T a, T b) : x(a), y(b), z(0) {}
+    Vec(const Vec& v) : x(v.x), y(v.y),z(v.z) {}
     ~Vec() = default;
     Vec() = default;
 
@@ -70,8 +71,14 @@ struct Vec {
     Vec operator- (const Vec &v) {
         return Vec(x - v.x, y - v.y, z - v.z);
     }
+    Vec operator+ (const Vec &v) {
+        return Vec(x + v.x, y + v.y, z + v.z);
+    }
     Vec operator+= (const Vec &v) {
-        return Vec(x += v.x, y += v.y, z += v.z);
+        *this = Vec(x += v.x, y += v.y, z += v.z);
+    }
+    Vec operator-= (const Vec &v) {
+        *this = Vec(x -= v.x, y -= v.y, z -= v.z);
     }
     //element wise division 
     Vec operator / (const Vec &v){
@@ -118,10 +125,19 @@ struct Vec {
     bool operator >(const S f) {
         return (x > f || y > f || z > f);
     }
+
+    template <typename S>
+    bool operator== (const Vec<S>& q) {
+        return x == q.x && y == q.y && z == q.z;
+    }
+    template <typename S>
+    bool operator!= (const Vec<S>& q) {
+        return !(x == q.x && y == q.y && z == q.z);
+    }
     //BLA Matrix conversions
     template <typename S>
-    Vec fromMat(const S &mat){
-	    return Vec(mat(0),mat(1),mat(2));
+    void fromMat(const S &mat){
+	    *this = Vec(mat(0),mat(1),mat(2));
     }
     template <typename S>
     S toMat(const S &mat){
@@ -129,6 +145,18 @@ struct Vec {
 	mat(1) = y;
 	mat(2) = z;
 	return mat;
+    }
+    template <typename S>
+    void fromArr(const S &arr){
+        *this = Vec(arr[0],arr[1],arr[2]);
+    }
+    
+    template <typename S>
+    S toArr(const S &arr){
+        arr[0] = x;
+        arr[0] = y;
+        arr[0] = z;
+        return arr;
     }
 
 };
