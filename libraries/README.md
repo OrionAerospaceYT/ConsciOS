@@ -292,3 +292,78 @@ float magnitude = my_quat.magnitude();
 auto squared = my_quat.square();
 
 my_quat.normalize();//converts the quat to a unit quaternion 
+
+```
+
+<h2>
+<a href = 'link'>time_handler.h</a>
+</h2>
+
+time related functions, computing change in time (delta time), timing events, counting cycles 
+
+Constructor takes no arguments 
+```
+Timer = my_timer; 
+```
+
+Example: computing delta T in a loop 
+```
+float dt = my_timer.deltaT();
+my_timer.start();
+some_function(dt);
+my_timer.stop();
+```
+Cycle counting
+```
+my_timer.count(); // adds to a cycles count 
+my_timer.getCycles(); //returns the sum of count()
+```
+Up time and time since start
+```
+my_timer.getUpTime(); // returns the up time of the processor in seconds 
+
+my_timer.getTime(); // returns the time in seconds since the timer was started with start()
+```
+<h2>
+<a href = 'link'>single_sensor.h</a>
+</h2>
+a quick and easy way to read data for analog or digital sensors. 
+
+```
+SingleDataPointSensor my_sensor(pin,read type);
+
+SingleDataPointSensor my_sensor1(4,DIGITAL);
+SingleDataPointSensor my_sensor2(5,ANALOG);
+
+auto data = my_sensor1.read(); // returns the value from the pin 
+```
+<h2>
+<a href = 'link'>filters.h</a>
+</h2>
+
+Collection of simple filters 
+
+Single kalman filter (single value kalman filter)
+
+Constructor
+```
+SingleKalman<> my_filter(0.1,0.03);//template paramater is data type (defaults to float) then the q and r values are passed in 
+
+my_filter.setB(1.3); // A b value can be set if desired, but not required 
+```
+
+Example:
+```
+auto filtered_value = my_filter.filter(sensor_data);
+```
+
+First Order Low pass filter
+
+Constructor 
+```
+LowPassFilter<> my_filter(0.8); //template paramater is data type (defaults to float) then the filter coefffecient alpha is passed in
+```
+Example:
+```
+auto filtered_signal = my_filter.filter(signal);
+```
