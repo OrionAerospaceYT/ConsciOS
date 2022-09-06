@@ -126,6 +126,32 @@ sk_math::FASTINVSQ(number);
 The fast inverse squareroot formula in C++. Calculates the inverse square root of a number.
 more info: https:/www.tutorialspoint.com/fast-inverse-square-root-in-cplusplus/
 
+<h2>
+<a href = 'link'>array.h</a>
+</h2>
+
+template based array with iterator
+
+Example:
+```
+Array<int,5>my_array(1,2,3,4,5);
+Array<Vec<>,3>my_array2(v1,v2,v3);
+
+auto my_value = my_array.get(2); //this returns 3 from the array
+
+auto my_value2 = my_array[0]; //returns 1 the first value in the array
+
+for(const auto& vector : my_array2){
+    vector.toRadians(); //for each loops can be used with the array
+}
+
+```
+
+<h2>
+<a href = 'link'> actuator_struct.h </a>
+</h2>
+
+A child of the array struct, it's geared towards creating arrays or "ActuatorGroup" of actuators
 
 <h2>
 <a href = "link"> vector.h </a>
@@ -347,7 +373,8 @@ Single kalman filter (single value kalman filter)
 
 Constructor
 ```
-SingleKalman<> my_filter(0.1,0.03);//template paramater is data type (defaults to float) then the q and r values are passed in 
+SingleKalman<> my_filter(0.1,0.03);//template paramater is data type (defaults to float)
+//then the q and r values are passed in 
 
 my_filter.setB(1.3); // A b value can be set if desired, but not required 
 ```
@@ -361,7 +388,8 @@ First Order Low pass filter
 
 Constructor 
 ```
-LowPassFilter<> my_filter(0.8); //template paramater is data type (defaults to float) then the filter coefffecient alpha is passed in
+LowPassFilter<> my_filter(0.8); //template paramater is data type (defaults to float) 
+//then the filter coefffecient alpha is passed in
 ```
 Example:
 ```

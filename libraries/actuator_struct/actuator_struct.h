@@ -17,7 +17,6 @@ struct ActuatorGroup : Array<T,Size> {
                  a.data[i].write(pos);
             }
     }
-    //add assert
     void write(int actuator_number, int pos){
         a.data[actuator_number].write(pos);
     }
