@@ -171,7 +171,7 @@ my_group.write(2,50); //writes 50 to my_servo3
 
 <h2>
 <a href = 'link'> sensor_struct.h </a>
-<h2>
+</h2>
 
 A child of the array struct, geared towards creating arrays or "SensorGroup" of sensors
 
