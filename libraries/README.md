@@ -153,6 +153,39 @@ for(const auto& vector : my_array2){
 
 A child of the array struct, it's geared towards creating arrays or "ActuatorGroup" of actuators
 
+Example 
+```
+Servo my_servo1;
+Servo my_servo2;
+Servo my_servo3;
+Servo my_servo4;
+int pins[] = {3,5,6,7};//array of servo pins  
+ActuatorGroup<Servo,4>my_group(my_servo1,my_servo2,my_servo3,my_servo4); //creates a group of 4 servos 
+
+my_group.attach(pins); //for 3 or less servos .attach(pin1,pin2,pin3) can be used 
+
+my_group.writeAll(0); //writes all servos to 0 
+
+my_group.write(2,50); //writes 50 to my_servo3 
+```
+
+<h2>
+<a href = 'link'> sensor_struct.h </a>
+<h2>
+
+A child of the array struct, geared towards creating arrays or "SensorGroup" of sensors
+
+Example using the SingleDataPoint struct
+```
+SingleDataPointSensor my_sensor1(4,ANALOG);
+SingleDataPointSensor my_sensor2(5,ANALOG);
+SingleDataPointSensor mu_sensor3(6,ANALOG);
+
+SensorGroup<SingleDataPointSensor,3>my_group(my_sensor1,my_sensor2,my_sensor3);
+
+Array<int,3> data_return = my_group.read(); 
+```
+
 <h2>
 <a href = "link"> vector.h </a>
 </h2>
