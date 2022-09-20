@@ -31,7 +31,7 @@ struct ActuatorGroup : Array<T,Size> {
         auto current_pos = sk_math::SMOOTLERP(init_value, float(pos), smooth_write_interp); 
         smooth_write_interp += increment;
         a.data[actuator_number].write(current_pos);
-        if(smooth_write_interp > number_of_interps){
+        if(smooth_write_interp > 1.0){
             smooth_write_interp = 0;
         }
     }
