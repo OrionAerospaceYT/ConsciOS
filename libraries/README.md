@@ -362,7 +362,7 @@ time related functions, computing change in time (delta time), timing events, co
 
 Constructor takes no arguments 
 ```
-Timer = my_timer; 
+Timer my_timer; 
 ```
 
 Example: computing delta T in a loop 

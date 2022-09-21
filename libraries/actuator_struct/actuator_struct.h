@@ -22,6 +22,7 @@ struct ActuatorGroup : Array<T,Size> {
     void write(int actuator_number, int pos){
         a.data[actuator_number].write(pos);
     }
+
     //Servo Only 
     void smoothWrite(int actuator_number, int pos, int number_of_interps){
         float increment = 1.0 / float(number_of_interps); 
@@ -35,6 +36,7 @@ struct ActuatorGroup : Array<T,Size> {
             smooth_write_interp = 0;
         }
     }
+
     void attach(int* pins){
 	//assert pins length = array size (i.e each actuator must have pin)
 	for(auto i = 0; i < Size; ++i){
