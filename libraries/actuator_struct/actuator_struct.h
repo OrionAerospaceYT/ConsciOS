@@ -10,7 +10,7 @@
 template <typename T, size_t Size>
 struct ActuatorGroup : Array<T,Size> {
     Array<T,Size> a;
-    float smooth_write_interp;
+    float smooth_write_interp = 0.0f;
     float init_value;
     template <typename ...Args>
     constexpr ActuatorGroup(const Args&... args) : a{args...} {}
@@ -24,12 +24,12 @@ struct ActuatorGroup : Array<T,Size> {
     }
 
     //Servo Only 
-    void smoothWrite(int actuator_number, int pos, int number_of_interps){
-        float increment = 1.0 / float(number_of_interps); 
+    void smoothWrite(int actuator_number, float pos, float number_of_interps){
+        float increment = 1.0 / number_of_interps; 
         if(smooth_write_interp == 0){
             init_value = a.data[actuator_number].read();
         }
-        auto current_pos = sk_math::SMOOTLERP(init_value, float(pos), smooth_write_interp); 
+        auto current_pos = sk_math::SMOOTLERP(init_value, pos, smooth_write_interp); 
         smooth_write_interp += increment;
         a.data[actuator_number].write(current_pos);
         if(smooth_write_interp > 1.0){
@@ -42,6 +42,11 @@ struct ActuatorGroup : Array<T,Size> {
 	for(auto i = 0; i < Size; ++i){
 		a.data[i].attach(*(pins + i));
 	}
+    void attach(Array<int,Size> pins){
+        for(auto i = 0; i < Size; ++i){
+            a.data[i].attach(pins[i]);
+        }
+    }
     }
     void attach(int p1, int p2){
         a.data[0].attach(p1);
