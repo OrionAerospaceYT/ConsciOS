@@ -41,12 +41,12 @@ struct ActuatorGroup : Array<T,Size> {
 	//assert pins length = array size (i.e each actuator must have pin)
 	for(auto i = 0; i < Size; ++i){
 		a.data[i].attach(*(pins + i));
-	}
+	    }
+    }
     void attach(Array<int,Size> pins){
         for(auto i = 0; i < Size; ++i){
             a.data[i].attach(pins[i]);
         }
-    }
     }
     void attach(int p1, int p2){
         a.data[0].attach(p1);
