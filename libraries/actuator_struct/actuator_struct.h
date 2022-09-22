@@ -26,18 +26,6 @@ struct ActuatorGroup : Array<T,Size> {
     //Servo Only 
     bool smoothWrite(int actuator_number, float pos, float number_of_interps){
         //check if desired range has been completed 
-        if(smooth_write_interp > 1.0){
-            smooth_write_interp = 0;
-            return true;
-        }
-        float increment = 1.0 / number_of_interps; 
-        if(smooth_write_interp == 0){
-            init_value = a.data[actuator_number].read();
-        }
-        auto current_pos = sk_math::SMOOTLERP(init_value, pos, smooth_write_interp); 
-        smooth_write_interp += increment;
-        a.data[actuator_number].write(current_pos);
-        return false;
     }
 
     void attach(int* pins){
