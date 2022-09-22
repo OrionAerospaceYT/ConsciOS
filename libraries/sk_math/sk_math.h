@@ -42,7 +42,7 @@ template<typename T> T LERP(const T min, const T max, const T interpolationPoint
 
 //A linear interpolation with a slight bezier to the interp to make it smooth 
 //https://gamedevbeginner.com/the-right-way-to-lerp-in-unity-with-examples/
-template<typename T> T SMOOTLERP(const T min, const T max, const T interpolationPoint) {
+template<typename T> T SMOOTHLERP(const T min, const T max, const T interpolationPoint) {
 	return  T(min + ((interpolationPoint * interpolationPoint) * (3 - 2 * interpolationPoint)) * (max - min));
 }
 
