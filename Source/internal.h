@@ -6,20 +6,17 @@
 #include "task_flow.h"
 //-----Internals------
 
-namespace sm
-{
-	//------INTERNAL-----
-	// DO NOT TOUCH
-	void SM_UPDATE_LOOP()
-	{
-		taskSchedule();
-		END_LOG;
-	}
+namespace sm {
+//------INTERNAL-----
+// DO NOT TOUCH
+void SM_UPDATE_LOOP() {
+    taskSchedule();
+    END_LOG;
+}
 
-	void SM_INIT()
-	{
-		SideKick();
-		taskInit();
-	}
-	//------INTERNAL-----
-} // ns sm
+void SM_INIT() {
+    SideKick();
+    taskInit();
+}
+//------INTERNAL-----
+}  // namespace sm

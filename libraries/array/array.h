@@ -2,8 +2,7 @@
 #include "common.h"
 
 template <typename R>
-struct Iterator
-{
+struct Iterator {
     using value_type = R;
     using pointer = R *;
     using reference = R &;
@@ -12,19 +11,21 @@ struct Iterator
 
     reference operator*() const { return *m_ptr; }
     pointer operator->() { return m_ptr; }
-    Iterator &operator++()
-    {
+    Iterator &operator++() {
         m_ptr++;
         return *this;
     }
-    Iterator operator++(int)
-    {
+    Iterator operator++(int) {
         Iterator tmp = *this;
         ++(*this);
         return tmp;
     }
-    friend bool operator==(const Iterator &a, const Iterator &b) { return a.m_ptr == b.m_ptr; };
-    friend bool operator!=(const Iterator &a, const Iterator &b) { return a.m_ptr != b.m_ptr; };
+    friend bool operator==(const Iterator &a, const Iterator &b) {
+        return a.m_ptr == b.m_ptr;
+    };
+    friend bool operator!=(const Iterator &a, const Iterator &b) {
+        return a.m_ptr != b.m_ptr;
+    };
 
     pointer m_ptr;
 };
@@ -32,43 +33,32 @@ struct Iterator
 // thanks to Martin Starkov for help with the basics of this struct
 // assert that size > 1
 template <typename T, size_t Size>
-struct Array
-{
+struct Array {
     typedef Iterator<T> iterator;
     T data[Size];
     template <typename... Args>
     constexpr Array(const Args &...args) : data{args...} {}
     constexpr Array() : data{} {}
-    T get(int i)
-    {
-        if (i < 0 || i > Size)
-        {
+    T get(int i) {
+        if (i < 0 || i > Size) {
             return data[Size];
-        }
-        else
-        {
+        } else {
             return data[i];
         }
     }
 
-    operator String()
-    {
+    operator String() {
         String ret;
-        for (auto i = 0; i < Size - 1; ++i)
-        {
+        for (auto i = 0; i < Size - 1; ++i) {
             ret += String(data[i]) + ",";
         }
         ret += String(data[Size - 1]);
         return ret;
     }
-    T operator[](int i)
-    {
-        if (i < 0 || i > Size)
-        {
+    T operator[](int i) {
+        if (i < 0 || i > Size) {
             return data[Size];
-        }
-        else
-        {
+        } else {
             return data[i];
         }
     }
