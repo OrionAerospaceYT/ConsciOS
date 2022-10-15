@@ -165,8 +165,9 @@ struct Quat {
     Quat<T> fromMat(const S &mat) {
         return Quat(mat(0), mat(1), mat(2), mat(3));
     }
+
     template <typename S>
-    S toMat(S &mat) {
+    S toMat(S* mat) {
         mat(0) = w;
         mat(1) = i;
         mat(2) = j;
