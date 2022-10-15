@@ -9,7 +9,7 @@ struct Orientation {
     Quat<> base;
     Vec<> *ypr;
     Orientation(Quat<> base, Vec<> &ypr) : base(base), ypr(&ypr) {}
-    Orientation(Vec<> &ypr) : ypr(&ypr) {}
+    explicit Orientation(Vec<> &ypr) { ypr = ypr; }
     Orientation() = default;
     ~Orientation() = default;
     // purely gyro based orientation resolution
@@ -27,7 +27,7 @@ struct Orientation {
     // can do a template type T,S etc and make Quat<T> as a passed parameter
     // this will also allow the typing T to be used to cast the floats used rn
     template <typename T, typename S, typename F>
-    void resolveOrientation(const T &gyro, T &accel, T &ypr, S &base,
+    void resolveOrientation(const T &gyro, const T &accel, const T &ypr, const S &base,
                             const F &dt) {
         auto qdot = base.fromAngularRate(gyro);
         auto norm = accel.magnitude();

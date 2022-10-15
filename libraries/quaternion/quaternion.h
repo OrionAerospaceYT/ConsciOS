@@ -67,7 +67,7 @@ struct Quat {
     // Division of quaternion A by quaternion B is nothing more than multiplying
     // A by the multiplicative inverse of B
     template <typename S>
-    Quat<T> operator/(Quat<S> &q) {
+    Quat<T> operator/(const Quat<S> &q) {
         Quat<T> r;
         r.w = T((q.w * w + q.i * i + q.j * j + q.k * k) / q.square());
         r.i = T((q.w * i - q.i * w - q.j * k + q.k * j) / q.square());
@@ -112,16 +112,16 @@ struct Quat {
 
     // Convert to Euler Angles vector
     template <typename S>
-    S toEulerVector(S &vec) {
-        vec.x = atan2(T(2) * i * j - T(2) * w * k,
+    S toEulerVector(S* vec) {
+        vec->x = atan2(T(2) * i * j - T(2) * w * k,
                       T(2) * w * w + T(2) * i * i - T(1));
         auto check = T(2) * i * k + T(2) * w * j;
         if (abs(check) >= T(1)) {
-            vec.y = -sk_math::SIGN(check) * PI / T(2);
+            vec->y = -sk_math::SIGN(check) * PI / T(2);
         } else {
-            vec.y = -asin(check);
+            vec->y = -asin(check);
         }
-        vec.z = atan2(T(2) * j * k - T(2) * w * i,
+        vec->z = atan2(T(2) * j * k - T(2) * w * i,
                       T(2) * w * w + T(2) * k * k - T(1));
         return vec;
     }

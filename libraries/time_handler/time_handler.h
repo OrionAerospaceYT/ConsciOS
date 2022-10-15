@@ -21,6 +21,6 @@ struct Timer {
     }
     void count() { cycles++; }
     uint32_t getCycles() { return cycles; }
-    unsigned long getUpTime() { return micros() / 1000000.0; }
-    unsigned long getTime() { return (micros() - start_t) / 1000000.0; }
+    uint32_t getUpTime() { return micros() / 1000000.0; }
+    uint32_t getTime() { return (micros() - start_t) / 1000000.0; }
 };

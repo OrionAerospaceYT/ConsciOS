@@ -10,7 +10,7 @@ struct TransitionMap {
     Array<taskFunc, Size> task_funcs;
     int current_state = 0;
     int add_count = 0;
-    TransitionMap(Array<taskFunc, Size> &task) { this->task_funcs = task; }
+    explicit TransitionMap(const Array<taskFunc, Size> &task) { this->task_funcs = task; }
     TransitionMap() = default;
     ~TransitionMap() = default;
 

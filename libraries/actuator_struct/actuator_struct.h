@@ -8,7 +8,7 @@ template <typename T, size_t Size>
 struct ActuatorGroup : Array<T, Size> {
     Array<T, Size> a;
     template <typename... Args>
-    constexpr ActuatorGroup(const Args &...args) {
+    explicit constexpr ActuatorGroup(const Args &...args) {
         a = {args...};
     }
     void writeAll(int pos) {

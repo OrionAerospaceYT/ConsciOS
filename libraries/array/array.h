@@ -37,7 +37,7 @@ struct Array {
     typedef Iterator<T> iterator;
     T data[Size];
     template <typename... Args>
-    constexpr Array(const Args &...args) {
+    explicit constexpr Array(const Args &...args) {
         data = {args...};
     }
     constexpr Array() : data{} {}

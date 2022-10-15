@@ -7,7 +7,9 @@ struct SensorGroup : Array<T, Size> {
     Array<T, Size> a;
     Array<R, Size> r;
     template <typename... Args>
-    constexpr SensorGroup(const Args &...args) : a{args...} {}
+    explicit constexpr SensorGroup(const Args &...args){
+        a = {args...};
+    }
     void init() {
         for (auto i = 0; i < Size; ++i) {
             a.data[i].init();
