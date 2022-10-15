@@ -2,15 +2,15 @@
 #include "array.h"
 #include "common.h"
 
-// TODO: LOOK INTO INHERT FROM ARRAY STRUCT
-
 // this is a little too geared towards servos at the moment... will need to do
 // more testing with other actuator types assert that size > 1
 template <typename T, size_t Size>
 struct ActuatorGroup : Array<T, Size> {
     Array<T, Size> a;
     template <typename... Args>
-    constexpr ActuatorGroup(const Args &...args) : a{args...} {}
+    constexpr ActuatorGroup(const Args &...args) {
+        a = {args...};
+    }
     void writeAll(int pos) {
         for (auto i = 0; i < Size; ++i) {
             a.data[i].write(pos);

@@ -37,7 +37,9 @@ struct Array {
     typedef Iterator<T> iterator;
     T data[Size];
     template <typename... Args>
-    constexpr Array(const Args &...args) : data{args...} {}
+    constexpr Array(const Args &...args) {
+        data = {args...};
+    }
     constexpr Array() : data{} {}
     T get(int i) {
         if (i < 0 || i > Size) {
