@@ -7,7 +7,7 @@ struct Iterator {
     using pointer = R *;
     using reference = R &;
 
-    Iterator(pointer ptr) : m_ptr(ptr) {}
+    explicit Iterator(pointer ptr){ m_ptr = ptr; }
 
     reference operator*() const { return *m_ptr; }
     pointer operator->() { return m_ptr; }

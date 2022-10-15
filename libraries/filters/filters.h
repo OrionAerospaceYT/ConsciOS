@@ -35,7 +35,7 @@ template <typename T = float>
 struct LowPassFilter {
     T previous_output = 0;
     T alpha;
-    LowPassFilter(T a) { alpha = a; }
+    explicit LowPassFilter(T a) { alpha = a; }
     T filter(T signal) {
         auto out = alpha * previous_output + (T(1) - alpha) * signal;
         previous_output = out;

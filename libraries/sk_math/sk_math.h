@@ -75,7 +75,7 @@ float FASTINVSQ(float n) {
     const float threehalfs = 1.5f;
     float y = n;
 
-    long i = *(long *)&y;
+    uint32_t i = *(uint32_t *)&y;
 
     i = 0x5f3759df - (i >> 1);
     y = *(float *)&i;
