@@ -1,7 +1,7 @@
 #pragma once
 #include "common.h"
 #include "array.h"
-#include "sk_math.h"
+
 
 //TODO: LOOK INTO INHERT FROM ARRAY STRUCT
 
@@ -10,8 +10,6 @@
 template <typename T, size_t Size>
 struct ActuatorGroup : Array<T,Size> {
     Array<T,Size> a;
-    float smooth_write_interp = 0.0f;
-    float init_value;
     template <typename ...Args>
     constexpr ActuatorGroup(const Args&... args) : a{args...} {}
     void writeAll(int pos) {
@@ -19,25 +17,15 @@ struct ActuatorGroup : Array<T,Size> {
                  a.data[i].write(pos);
             }
     }
+    //add assert
     void write(int actuator_number, int pos){
         a.data[actuator_number].write(pos);
     }
-
-    //Servo Only 
-    bool smoothWrite(int actuator_number, float pos, float number_of_interps){
-        //check if desired range has been completed 
-    }
-
     void attach(int* pins){
 	//assert pins length = array size (i.e each actuator must have pin)
 	for(auto i = 0; i < Size; ++i){
 		a.data[i].attach(*(pins + i));
-	    }
-    }
-    void attach(Array<int,Size> pins){
-        for(auto i = 0; i < Size; ++i){
-            a.data[i].attach(pins[i]);
-        }
+	}
     }
     void attach(int p1, int p2){
         a.data[0].attach(p1);

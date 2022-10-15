@@ -27,15 +27,11 @@ static bool assertCheck(bool condition, std::string file, int line) {
 // Graphing macros
 #define TOP ",1,"
 #define BOT ",2,"
-#define GRAPH(name, data, type) Serial.print("g("); Serial.print(name); Serial.print(",1,"); Serial.print(data); Serial.print(")");
-
-//#define TOP_GRAPH(name, data) Serial.print("g("); Serial.print(name); Serial.print(",1,"); Serial.print(data); Serial.print(")");
-//#define BOTTOM_GRAPH(name, data) Serial.print("g("); Serial.print(name); Serial.print(",2,"); Serial.print(data); Serial.print(")");
+#define GRAPH(name, data, type) Serial.print("g("); Serial.print(name); Serial.print(type); Serial.print(data); Serial.print(")");
 #define PRINT(text) Serial.print("t("); Serial.print(text); Serial.print(")");
 #define END_LOG Serial.println();
 
 namespace internal {
-
 static bool assertionCheck(bool condition, String conditionS, String file, int line, String message) {
   if (condition) {
     return true;
