@@ -33,7 +33,10 @@ struct SingleKalman {
 struct LowPassFilter {
     float previous_output = 0.0f;
     float alpha = 0.0f;
-    LowPassFilter(float a) { alpha = a; }
+    explicit LowPassFilter(float a) { 
+        alpha = a; 
+    }
+
     float filter(float signal) {
         previous_output = alpha * previous_output + (1.0f - alpha) * signal;
         return previous_output;
