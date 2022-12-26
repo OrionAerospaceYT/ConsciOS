@@ -3,6 +3,7 @@
 #include "sk_math.h"
 
 struct Vec {
+
     float x = 0;
     float y = 0;
     float z = 0;
@@ -85,9 +86,9 @@ struct Vec {
         return r;
     }
     // Vector to Vector Dot Product
-    Vec dot(const Vec &v) { return x * v.x + y * v.y + z * v.z; }
+    float dot(const Vec &v) { return x * v.x + y * v.y + z * v.z; }
 
-    Vec magnitude() { return sqrt(x * x + y * y + z * z); }
+    float magnitude() { return sqrt(x * x + y * y + z * z); }
 
     void normalize() { *this = *this / magnitude(); }
 

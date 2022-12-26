@@ -19,7 +19,7 @@ enum Task
     Loop
 };
 Array<taskFunc, TASK_COUNT> TaskFlow(task::Setup, task::ActuatorTest, task::Calibration,
-                                     task::Loop);
+ task::Loop);
 TransitionMap<TASK_COUNT> transition_map(TaskFlow);
 
 void taskInit()

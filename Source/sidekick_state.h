@@ -5,12 +5,12 @@
 
 template <typename T = float>
 struct SideKickState {
-    Vec<T> ypr;        // yaw pitch roll
-    Vec<T> ypr_rate;   // yaw pitch roll rates
-    Vec<T> ypr_accel;  // yaw pitch roll angular acceleration
-    Vec<T> xyz_br;     // body relative position
-    Vec<T> vel_br;     // body relative axis rates
-    Vec<T> accel_br;   // body relative axis accelerations
+    Vec ypr;        // yaw pitch roll
+    Vec ypr_rate;   // yaw pitch roll rates
+    Vec ypr_accel;  // yaw pitch roll angular acceleration
+    Vec xyz_br;     // body relative position
+    Vec vel_br;     // body relative axis rates
+    Vec accel_br;   // body relative axis accelerations
     int current_task;
     uint32_t current_task_time;
 };
