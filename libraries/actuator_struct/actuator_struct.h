@@ -1,6 +1,5 @@
 #pragma once
 #include "array.h"
-#include "common.h"
 
 // this is a little too geared towards servos at the moment... will need to do
 // more testing with other actuator types assert that size > 1

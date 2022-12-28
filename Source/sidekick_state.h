@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.h"
+#include "utility.h"
 #include "vector.h"
 
 template <typename T = float>

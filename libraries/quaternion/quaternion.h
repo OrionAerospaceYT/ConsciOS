@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.h"
+#include "utility.h"
 #include "sk_math.h"
 
 // Conversions Taken From Madgwick Paper

@@ -1,5 +1,5 @@
 #pragma once
-#include "common.h"
+#include "utility.h"
 #include "quaternion.h"
 #include "sk_math.h"
 #include "vector.h"
