@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Wire.h>
-
 #include "utility.h"
 
 struct Timer {

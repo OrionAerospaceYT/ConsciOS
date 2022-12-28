@@ -4,23 +4,12 @@
 // this is a little too geared towards servos at the moment... will need to do
 // more testing with other actuator types assert that size > 1
 template <typename T, size_t Size>
-<<<<<<< HEAD
-struct ActuatorGroup : Array<T, Size> {
-    Array<T, Size> a;
-    template <typename... Args>
-    explicit constexpr ActuatorGroup(const Args &...args) {
-        a = {args...};
-    }
-    void writeAll(int pos) {
-        for (auto i = 0; i < Size; ++i) {
-            a.data[i].write(pos);
-=======
 struct ActuatorGroup : Array<T,Size> {
     Array<T,Size> a;
     float smooth_write_interp;
     float init_value;
     template <typename ...Args>
-    constexpr ActuatorGroup(const Args&... args) : a{args...} {}
+    explicit constexpr ActuatorGroup(const Args&... args) : a{args...} {}
     void writeAll(int pos) {
             for (auto i = 0; i < Size; ++i){
                  a.data[i].write(pos);
@@ -49,7 +38,6 @@ struct ActuatorGroup : Array<T,Size> {
     void attach(Array<int,Size> pins){
         for(auto i = 0; i < Size; ++i){
             a.data[i].attach(pins[i]);
->>>>>>> a997c9e (changed filters.h from template to float quickly)
         }
     }
     // add assert

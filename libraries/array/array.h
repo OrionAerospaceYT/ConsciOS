@@ -1,5 +1,4 @@
 #pragma once
-#include "common.h"
 
 template <typename R>
 struct Iterator {
