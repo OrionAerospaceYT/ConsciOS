@@ -14,11 +14,15 @@
 //Include your Actuator libraries here
 
 namespace actuators{
-void init() {
 
+  // Globals can be defined here
 
-}
+  void init(){
 
-void write() {}
+  }
+
+  void write(){
+
+  }
 
 }  // namespace actuators
