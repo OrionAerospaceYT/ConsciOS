@@ -9,7 +9,7 @@ struct ActuatorGroup : Array<T,Size> {
     float smooth_write_interp;
     float init_value;
     template <typename ...Args>
-    explicit constexpr ActuatorGroup(const Args&... args) : a{args...} {}
+    explicit  ActuatorGroup(const Args&... args) : a{args...} {}
 
     void writeAll(int pos) {
             for (auto i = 0; i < Size; ++i){
@@ -25,7 +25,9 @@ struct ActuatorGroup : Array<T,Size> {
             a.data[i].attach(pins[i]);
         }
     }
-
+    void attach(int p1){
+        a.data[0].attach(p1);
+    }
     void attach(int p1, int p2) {
         a.data[0].attach(p1);
         a.data[1].attach(p2);
