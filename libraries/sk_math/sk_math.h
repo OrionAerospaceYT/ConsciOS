@@ -45,10 +45,17 @@ T LERP(const T min, const T max, const T interpolationPoint) {
 // A linear interpolation with a slight bezier to the interp to make it smooth
 // https://gamedevbeginner.com/the-right-way-to-lerp-in-unity-with-examples/
 template <typename T>
-T SMOOTLERP(const T min, const T max, const T interpolationPoint) {
-    return T(min + ((interpolationPoint * interpolationPoint) *
-                    (3 * 2 * interpolationPoint)) *
-                       (max - min));
+T SMOOTHLERP(const T min, const T max, const T interpolation_point) {
+    auto t = interpolation_point * interpolation_point * (3.0f - 2.0f * interpolation_point);
+    return LERP(min,max,t);
+}
+
+// Maps a given value from one range to the other
+template <typename T>
+T MAP(T x, T input_start, T input_end, T output_start, T output_end){
+    int input_range = input_end - input_start;
+    int output_range = output_end - output_start;
+    return (x - input_start) * (output_range) / input_range + output_start;
 }
 
 // https://stackoverflow.com/questions/785097/how-do-i-implement-a-b%C3%A9zier-curve-in-c
