@@ -26,7 +26,7 @@ struct ActuatorGroup : Array<T,Size> {
     }
     void write(int* values){
         for(auto i = 0; i < Size; ++i){
-            a.data[i].attach((values[i]));
+            a.data[i].write(values[i]);
         }
     }
     // This function must be called to enable lerpWrite
