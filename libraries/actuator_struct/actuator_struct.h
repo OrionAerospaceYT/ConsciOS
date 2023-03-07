@@ -24,7 +24,11 @@ struct ActuatorGroup : Array<T,Size> {
     void write(int actuator_number, int pos){
         a.data[actuator_number].write(pos);
     }
-
+    void write(int* values){
+        for(auto i = 0; i < Size; ++i){
+            a.data[i].attach((values[i]));
+        }
+    }
     // This function must be called to enable lerpWrite
     // Parameters include the starting position, end position, and the number of interpolation steps to take
     void initLerp(float start, float end, float interp_points){
@@ -51,9 +55,9 @@ struct ActuatorGroup : Array<T,Size> {
         GRAPH("lerp",output,TOP);
         return false;
     }
-    void attach(Array<int,Size> pins){
+    void attach(int* pins){
         for(auto i = 0; i < Size; ++i){
-            a.data[i].attach(pins[i]);
+            a.data[i].attach((pins[i]));
         }
     }
     void attach(int p1){
