@@ -1,4 +1,5 @@
 #pragma once
+#include "utility.h"
 
 template <typename R>
 struct Iterator {
@@ -40,12 +41,15 @@ struct Array {
     constexpr Array() : data{} {}
     T get(int i) {
         if (i < 0 || i > Size) {
+            warn(i < 0 || i > Size, "Invalid Array Element")
             return data[Size];
         } else {
             return data[i];
         }
     }
-
+    size_t len() {
+        return Size;
+    }
     operator String() {
         String ret;
         for (auto i = 0; i < Size - 1; ++i) {
@@ -56,6 +60,7 @@ struct Array {
     }
     T operator[](int i) {
         if (i < 0 || i > Size) {
+            warn(i < 0 || i > Size, "Invalid Array Element")
             return data[Size];
         } else {
             return data[i];
