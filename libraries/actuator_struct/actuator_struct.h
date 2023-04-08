@@ -1,9 +1,11 @@
 #pragma once
 #include "array.h"
 #include "sk_math.h"
+#include "lerp.h"
 
 // this is a little too geared towards servos at the moment... will need to do
 // more testing with other actuator types assert that size > 1
+
 template <typename T, size_t Size>
 struct ActuatorGroup : Array<T,Size> {
 
@@ -34,19 +36,22 @@ struct ActuatorGroup : Array<T,Size> {
     }
 
     void write(int* values){
-      for(auto i = 0; i < Size; ++i){
+      for(int i = 0; i < Size; ++i){
           a.data[i].write(values[i]);
       }
     }
 
     void attach(int* pins){
-      for(auto i = 0; i < Size; ++i){
+      for(int i = 0; i < Size; ++i){
+          PRINT(i);
           a.data[i].attach(pins[i]);
       }
     }
+
     void attach(int p1){
       a.data[0].attach(p1);
     }
+
     void attach(int p1, int p2) {
       a.data[0].attach(p1);
       a.data[1].attach(p2);

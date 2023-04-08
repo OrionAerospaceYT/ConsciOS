@@ -47,7 +47,7 @@ struct Array {
             return data[i];
         }
     }
-    size_t len() {
+    int len() {
         return Size;
     }
     operator String() {

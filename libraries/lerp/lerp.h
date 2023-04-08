@@ -8,46 +8,52 @@
 
 template<size_t Size>
 struct Lerp{
-    Array<float,2*Size> lerp_values;
-    Array<float,Size> current_values;
+    float lerp_values[2*Size] = {};
+    float current_values[Size] = {};
+    float increment_values[Size] = {};
     int type = 0;
+    int counter = 0;
     float smooth_start = 0;
     float current_smooth = 0;
     float smooth_max = 0;
     float increment = 0;
+    float interp_points = 100; //We default to 100 interpolation points
 
     template <typename ...Args>
-    explicit  Lerp(const Args&... args, float interp_points) : lerp_values{args...} {
-      increment = (smooth_max - smooth_start)/interp_points;
+    explicit  Lerp(const Args&... args) : lerp_values{args...} {
+        for(int i = 0; i < Size; ++i){
+            current_values[i] = 0.0f;
+        }
     }
     Lerp(float start, float end, float interp_points){
       smooth_start = start;
       smooth_max = end;
       increment = (smooth_max - smooth_start)/interp_points;
     }
-
+    void setResolution(float interp_points){
+        interp_points = interp_points;
+    }
     template <typename ActuatorGroup>
-    bool writeAll(const ActuatorGroup &a){
-        for(int i; i < a.len(); ++i){
+    bool writeAll(ActuatorGroup &a){
+        for(int i = 0; i < a.len(); ++i){
             float current_smooth = current_values[i];
-            float smooth_start = lerp_values[i];
-            float smooth_max = lerp_values[i+1];
+            float smooth_start = lerp_values[2*i];
+            float smooth_max = lerp_values[2*i + 1];
             float interp_point = sk_math::MAP(current_smooth,smooth_start,smooth_max,0.0f,1.0f);
+            increment = (smooth_max - smooth_start)/interp_points;
             float output = 0.0f;
             if(type == 0){
-                output = sk_math::LERP(smooth_start,smooth_max,interp_point);
+                output = smooth_start + sk_math::LERP(smooth_start,smooth_max,interp_point);
             }
             if(type == 1){
-                output = sk_math::SMOOTHLERP(smooth_start,smooth_max,interp_point);
+                output = smooth_start + sk_math::SMOOTHLERP(smooth_start,smooth_max,interp_point);
             }
-            if(sk_math::ISCLOSE(output,smooth_max,0.001f)){
-                return true;
+            if(!sk_math::ISCLOSE(output,smooth_max,0.1f)){
+                current_values[i] +=increment;
+                a.write(i,output);
             }
-            current_values[i] += increment;
-            a.data[i].write(output);
-            GRAPH("lerp",output,TOP);
-            return false;
-            }
+        }
+        return false;
     }
 
     template <typename actuator>
