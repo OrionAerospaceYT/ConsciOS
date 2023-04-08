@@ -57,7 +57,7 @@ struct Lerp{
     }
 
     template <typename actuator>
-    bool write(const actuator &a){
+    bool write(actuator* a){
       float interp_point = sk_math::MAP(current_smooth,smooth_start,smooth_max,0.0f,1.0f);
       float output = 0.0f;
       if(type == 0){
@@ -70,7 +70,7 @@ struct Lerp{
           return true;
       }
       current_smooth += increment;
-      a.write(output);
+      a->write(output);
       GRAPH("lerp",output,TOP);
       return false;
     }
