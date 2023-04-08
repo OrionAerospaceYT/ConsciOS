@@ -34,7 +34,7 @@ struct Lerp{
         interp_points = interp_points;
     }
     template <typename ActuatorGroup>
-    bool writeAll(ActuatorGroup &a){
+    bool writeAll(ActuatorGroup* a){
         for(int i = 0; i < a.len(); ++i){
             float current_smooth = current_values[i];
             float smooth_start = lerp_values[2*i];
@@ -50,7 +50,7 @@ struct Lerp{
             }
             if(!sk_math::ISCLOSE(output,smooth_max,0.1f)){
                 current_values[i] +=increment;
-                a.write(i,output);
+                a->write(i,output);
             }
         }
         return false;
