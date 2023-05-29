@@ -21,9 +21,12 @@ namespace task
 
     // Can be used for code that only runs once
     // This can also be run multiple times by changing the code flow in main.h
+
     void Setup()
     {
         subtask::exampleLongFunc(); // you can delete this purely for demonstration
+        actuators::init();
+        
     }
 
     // Can be used to automatically test actuators
@@ -40,6 +43,7 @@ namespace task
     // Code that loops
     void Loop()
     {
+        actuators::write();
     }
 
 } // namespace task

@@ -33,9 +33,10 @@ struct Lerp{
     void setResolution(float interp_points){
         interp_points = interp_points;
     }
+
     template <typename ActuatorGroup>
     bool writeAll(ActuatorGroup* a){
-        for(int i = 0; i < a.len(); ++i){
+        for(int i = 0; i < a->len(); ++i){
             float current_smooth = current_values[i];
             float smooth_start = lerp_values[2*i];
             float smooth_max = lerp_values[2*i + 1];

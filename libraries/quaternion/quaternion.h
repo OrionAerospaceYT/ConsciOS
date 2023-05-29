@@ -102,6 +102,7 @@ struct Quat {
         ypr[0] = atan2((2.0f) * (i * j + w * k), w * w + i * i - j * j - k * k);
         ypr[1] = -asin((2.0f) * (i * k - w * j));
         ypr[2] = atan2((2.0f) * (w * i + j * k), w * w - i * i - j * j + k * k);
+        return ypr;
     }
 
     // Convert to Euler Angles vector

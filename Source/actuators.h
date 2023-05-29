@@ -4,25 +4,32 @@
 
 #include "actuator_struct.h"
 #include "utility.h"
+#include "lerp.h"
 //#include "internal_defs.h"
 
 //-----Internals------
-
-// Include your Actuator libraries here
 #include <Servo.h>
+// Include your Actuator libraries here
+#include "skServo.h"
 
-//Include your Actuator libraries here
+int pins[] = {0,1,2};
+
+ActuatorGroup<skServo,3>test;
+Lerp<3>lerp(90.0f,0.0f,180.0f,0.0f,0.0f,90.0f);
 
 namespace actuators{
 
   // Globals can be defined here
 
   void init(){
-
+    test.attach(pins);
+    test.writeAll(0);
+    delay(1000);
   }
 
   void write(){
-
+   lerp.writeAll(&test); 
+   delay(100);
   }
 
 }  // namespace actuators

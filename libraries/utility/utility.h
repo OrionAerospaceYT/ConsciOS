@@ -25,6 +25,23 @@
 #define END_LOG Serial.println();
 
 namespace internal {
+
+template <typename T>
+static void writeByte(T *bus, uint8_t addr, uint8_t reg, uint8_t data){
+    bus->beginTransmission(addr);
+    bus->write(reg);
+    bus->write(data);
+    bus->endTransmission();
+}
+
+template <typename T>
+static uint8_t readByte(T *bus, uint8_t addr, uint8_t reg, uint8_t data){
+    bus->beginTransmission(addr);
+    bus->write(reg);
+    bus->endTransmission();
+    bus->requestFrom((uint8_t)addr, (uint8_t)1);
+    return bus->read();
+}
 static bool assertionCheck(bool condition, String conditionS, String file,
                            int line, String message) {
     if (condition) {
