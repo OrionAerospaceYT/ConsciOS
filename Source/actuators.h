@@ -14,7 +14,7 @@
 
 int pins[] = {0,1,2};
 
-ActuatorGroup<skServo,3>test;
+ActuatorGroup<sk_servo,3>test = ActuatorGroup<sk_servo,3>(S1,S2,S3);
 Lerp<3>lerp(90.0f,0.0f,180.0f,0.0f,0.0f,90.0f);
 
 namespace actuators{

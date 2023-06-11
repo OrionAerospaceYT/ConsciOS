@@ -22,6 +22,8 @@
     Serial.print("t("); \
     Serial.print(text); \
     Serial.print(")");
+#define PRINTRAW(text) Serial.print(text);
+#define PRINTRAWLN(text) Serial.println(text);
 #define END_LOG Serial.println();
 
 namespace internal {
