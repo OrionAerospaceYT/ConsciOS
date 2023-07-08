@@ -25,7 +25,6 @@ namespace task
     void Setup()
     {
         subtask::exampleLongFunc(); // you can delete this purely for demonstration
-        actuators::init();
         
     }
 

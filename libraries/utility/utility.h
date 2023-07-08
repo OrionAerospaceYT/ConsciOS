@@ -1,12 +1,12 @@
 #pragma once
 
 // Arduino assert condition
-#define assert(condition, message)                                      \
+#define sk_assert(condition, message)                                      \
     internal::assertionCheck(condition, #condition, __FILE__, __LINE__, \
                              message);
 // functions like an assert but wont hang the code will simple raise a flag on
 // execution
-#define warn(condition, message) \
+#define sk_warn(condition, message) \
     internal::warnCheck(condition, #condition, __FILE__, __LINE__, message);
 
 // Graphing macros
@@ -29,20 +29,21 @@
 namespace internal {
 
 template <typename T>
-static void writeByte(T *bus, uint8_t addr, uint8_t reg, uint8_t data){
-    bus->beginTransmission(addr);
-    bus->write(reg);
-    bus->write(data);
-    bus->endTransmission();
+static int writeByte(T bus, uint8_t addr, uint8_t reg, uint8_t data){
+    bus.beginTransmission(addr);
+    bus.write(reg);
+    bus.write(data);
+    return bus.endTransmission();
 }
 
 template <typename T>
-static uint8_t readByte(T *bus, uint8_t addr, uint8_t reg, uint8_t data){
-    bus->beginTransmission(addr);
-    bus->write(reg);
-    bus->endTransmission();
-    bus->requestFrom((uint8_t)addr, (uint8_t)1);
-    return bus->read();
+static uint8_t readByte(T bus, uint8_t addr, uint8_t reg){
+    bus.beginTransmission(addr);
+    bus.write(reg);
+    bus.endTransmission();
+
+    bus.requestFrom((uint8_t)addr, (uint8_t)1);
+    return bus.read();
 }
 static bool assertionCheck(bool condition, String conditionS, String file,
                            int line, String message) {

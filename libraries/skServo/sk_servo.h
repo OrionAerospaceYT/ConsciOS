@@ -112,22 +112,41 @@ uint8_t sk_servoCount = 0;                                    // the total numbe
 #define SERVO_MAX() (MAX_PULSE_WIDTH - this->max)   // maximum value in us for this servo
 
 struct sk_servo{
-    int min = 0;
-    int max = 0;
+    int min = MIN_PULSE_WIDTH;
+    int max = MAX_PULSE_WIDTH;
     int servoIndex = 0;
     int pin = -1;
-    Multiplexer* multi = nullptr;
-    sk_servo(Multiplexer* plexer){
-        multi = plexer;
+    Multiplexer multi = Multiplexer();
+    sk_servo(){
         if (sk_servoCount < MAX_SERVOS) {
             this->servoIndex = sk_servoCount++;
         } else {
             this->servoIndex = INVALID_SERVO;  // too many servos
         }
+        //PRINT("OHHH IM A SK SERVO")
+        //PRINT("PIN " + String(this->pin))
+    }
+
+    void setFreq(float frequency){
+        multi.setPWMFreq(frequency);
     }
     
-    void attach(int pin){
+    //this might be the dumbest solution anyone has 
+    //sk_pin attach(sk_pin pin){
+
+
+    //}
+
+    int attach(int pin){
+        //Check if pin has tried to be re-assigned
+        //sk_servo will only every be assigned internally so we reject re assings
+        if(this->pin != -1){
+            PRINT("Can't re-assign sk_servo pins");
+            return this->pin;
+        }
         this->pin = pin;
+        multi.setPWMFreq(50);
+        return this->pin;
     }  
 
     void limits(int min, int max){
@@ -141,14 +160,15 @@ struct sk_servo{
     // treat values less than 544 as angles in degrees (valid values in microseconds are handled as microseconds)
         if (value < MIN_PULSE_WIDTH)
         {
-            if (value < 0)
-            value = 0;
-            else if (value > 180)
-            value = 180;
-
-            value = map(value, 0, 180, SERVO_MIN(), SERVO_MAX());
+            if (value < 0){
+                value = 0;
+            }
+            else if (value > 180){
+                value = 180;
+            }
+        value = map(value, 0, 180, this->min, this->max);
         }
-        multi->writeMicroseconds(pin,value);
+        multi.writeMicroseconds(pin,value);
     }
 
     void writeMicroseconds(int value)
