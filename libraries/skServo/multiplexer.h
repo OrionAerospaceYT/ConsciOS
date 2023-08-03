@@ -16,7 +16,7 @@
 
 struct Multiplexer{
 
-    TwoWire bus = TwoWire(8,9);
+    arduino::MbedI2C bus = arduino::MbedI2C(8,9);
     Multiplexer(){
         begin();
     }

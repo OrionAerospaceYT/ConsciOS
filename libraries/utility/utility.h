@@ -22,6 +22,18 @@
     Serial.print("t("); \
     Serial.print(text); \
     Serial.print(")");
+#define PRINTLN(text)     \
+    Serial.print("t("); \
+    Serial.print(text); \
+    Serial.println(")");
+#define PRINTHEX(text)     \
+    Serial.print("t("); \
+    Serial.print(text,HEX); \
+    Serial.println(")");
+#define PRINTF(text)     \
+    Serial.print("t("); \
+    Serial.print(text,5); \
+    Serial.println(")");
 #define PRINTRAW(text) Serial.print(text);
 #define PRINTRAWLN(text) Serial.println(text);
 #define END_LOG Serial.println();

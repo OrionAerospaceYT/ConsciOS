@@ -5,6 +5,11 @@
 #include "skServo.h"
 #include "sidekick.h"
 #include "task_flow.h"
+
+#ifdef ARDUINO_ARCH_RP2040
+#include "stem.h"
+#endif
+
 //-----Internals------
 
 namespace sm {
