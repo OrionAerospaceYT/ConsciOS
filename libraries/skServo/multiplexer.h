@@ -14,24 +14,28 @@
 #define SLEEP 0x10
 #define AI 0x20
 
-struct Multiplexer{
+//Stem include wrapper 
+// NOTE: Not robust for regualr pico compiles
+#ifdef ARDUINO_ARCH_RP2040
+#include "stem.h"
+#endif
 
-    arduino::MbedI2C bus = arduino::MbedI2C(8,9);
+struct Multiplexer{
     Multiplexer(){
         begin();
     }
      
     void begin(){
-        this->bus.begin();
+        sk_internal_bus.begin();
         reset();
     }
 
     void reset(){
-        internal::writeByte(this->bus,ADDR,MODE1,RESTART);
+        internal::writeByte(&sk_internal_bus,ADDR,MODE1,RESTART);
     }
 
     int readPrescale(){
-        return internal::readByte(this->bus,ADDR,PRESCALE);
+        return internal::readByte(&sk_internal_bus,ADDR,PRESCALE);
     }
 
     void setPWMFreq(float freq){
@@ -45,23 +49,23 @@ struct Multiplexer{
         if(prescale_eval > MULTI_MAX)
             prescale_eval = MULTI_MAX;
         int prescale = int(prescale_eval);
-        int oldmode = internal::readByte(bus,ADDR, MODE1);
+        int oldmode = internal::readByte(&sk_internal_bus,ADDR, MODE1);
         int newmode = (oldmode & RESTART) | SLEEP;
-        internal::writeByte(bus,ADDR,MODE1,newmode);
-        internal::writeByte(bus,ADDR,PRESCALE,prescale);
-        internal::writeByte(bus,ADDR,MODE1,oldmode);
+        internal::writeByte(&sk_internal_bus,ADDR,MODE1,newmode);
+        internal::writeByte(&sk_internal_bus,ADDR,PRESCALE,prescale);
+        internal::writeByte(&sk_internal_bus,ADDR,MODE1,oldmode);
         delay(5); //idk if i like this but its in the adafruit docu 
-        internal::writeByte(bus,ADDR,MODE1,oldmode | RESTART | AI);
+        internal::writeByte(&sk_internal_bus,ADDR,MODE1,oldmode | RESTART | AI);
     }
 
     int setPWM(int pin, int start, int end){
-        this->bus.beginTransmission(ADDR);
-        this->bus.write(0x06 + 4 * pin);
-        this->bus.write(start);
-        this->bus.write(start >> 8);
-        this->bus.write(end);
-        this->bus.write(end >> 8);
-        return this->bus.endTransmission();
+        sk_internal_bus.beginTransmission(ADDR);
+        sk_internal_bus.write(0x06 + 4 * pin);
+        sk_internal_bus.write(start);
+        sk_internal_bus.write(start >> 8);
+        sk_internal_bus.write(end);
+        sk_internal_bus.write(end >> 8);
+        return sk_internal_bus.endTransmission();
     }
 
     void writeMicroseconds(int num, float microseconds){

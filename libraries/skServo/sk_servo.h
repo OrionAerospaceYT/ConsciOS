@@ -111,6 +111,7 @@ uint8_t sk_servoCount = 0;                                    // the total numbe
 #define SERVO_MIN() (MIN_PULSE_WIDTH - this->min)   // minimum value in us for this servo
 #define SERVO_MAX() (MAX_PULSE_WIDTH - this->max)   // maximum value in us for this servo
 
+
 struct sk_servo{
     int min = MIN_PULSE_WIDTH;
     int max = MAX_PULSE_WIDTH;
@@ -123,19 +124,12 @@ struct sk_servo{
         } else {
             this->servoIndex = INVALID_SERVO;  // too many servos
         }
-        //PRINT("OHHH IM A SK SERVO")
-        //PRINT("PIN " + String(this->pin))
     }
 
     void setFreq(float frequency){
         multi.setPWMFreq(frequency);
     }
     
-    //this might be the dumbest solution anyone has 
-    //sk_pin attach(sk_pin pin){
-
-
-    //}
 
     int attach(int pin){
         //Check if pin has tried to be re-assigned

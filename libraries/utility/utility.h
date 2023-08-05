@@ -28,11 +28,7 @@
     Serial.println(")");
 #define PRINTHEX(text)     \
     Serial.print("t("); \
-    Serial.print(text,HEX); \
-    Serial.println(")");
-#define PRINTF(text)     \
-    Serial.print("t("); \
-    Serial.print(text,5); \
+    Serial.print(text,HEX) \
     Serial.println(")");
 #define PRINTRAW(text) Serial.print(text);
 #define PRINTRAWLN(text) Serial.println(text);
@@ -42,20 +38,20 @@ namespace internal {
 
 template <typename T>
 static int writeByte(T bus, uint8_t addr, uint8_t reg, uint8_t data){
-    bus.beginTransmission(addr);
-    bus.write(reg);
-    bus.write(data);
-    return bus.endTransmission();
+    bus->beginTransmission(addr);
+    bus->write(reg);
+    bus->write(data);
+    return bus->endTransmission();
 }
 
 template <typename T>
 static uint8_t readByte(T bus, uint8_t addr, uint8_t reg){
-    bus.beginTransmission(addr);
-    bus.write(reg);
-    bus.endTransmission();
+    bus->beginTransmission(addr);
+    bus->write(reg);
+    bus->endTransmission();
 
-    bus.requestFrom((uint8_t)addr, (uint8_t)1);
-    return bus.read();
+    bus->requestFrom((uint8_t)addr, (uint8_t)1);
+    return bus->read();
 }
 static bool assertionCheck(bool condition, String conditionS, String file,
                            int line, String message) {

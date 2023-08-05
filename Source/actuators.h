@@ -12,6 +12,8 @@
 // Include your Actuator libraries here
 #include "skServo.h"
 
+#include <Wire.h>
+
 int pins[] = {12,49,30};
 
 Servo s1;
@@ -26,11 +28,14 @@ namespace actuators{
   // Globals can be defined here
 
   void init(){
-
+    Wire.begin();
     //test.attach(pins);
   }
 
   void write(){
+    Wire.beginTransmission(0x68);
+    PRINT("BUS1");
+    PRINT(Wire.endTransmission());
     test.writeAll(0);
     PRINT("zero")
     END_LOG
