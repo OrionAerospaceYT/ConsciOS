@@ -1,6 +1,6 @@
 #pragma once
 //-----Internals------
-#include "common.h"
+#include "utility.h"
 #include "sensor_struct.h"
 //-----Internals------
 

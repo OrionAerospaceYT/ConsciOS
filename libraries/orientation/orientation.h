@@ -1,10 +1,11 @@
 #pragma once
-#include "common.h"
+#include "utility.h"
 #include "quaternion.h"
 #include "sk_math.h"
 #include "vector.h"
 
 // THIS NEEDS TO BE CHANGED
+/*
 struct Orientation {
     Quat base;
     Vec *ypr;
@@ -71,3 +72,4 @@ struct Orientation {
     // choice can be passed in?
     void updateState() {}
 };
+*/

@@ -1,7 +1,7 @@
 #pragma once
 
 //-----Internals------
-#include "common.h"
+#include "utility.h"
 #include "array.h"
 #include "transition_map.h"
 #include "task.h"
@@ -19,7 +19,7 @@ enum Task
     Loop
 };
 Array<taskFunc, TASK_COUNT> TaskFlow(task::Setup, task::ActuatorTest, task::Calibration,
-                                     task::Loop);
+ task::Loop);
 TransitionMap<TASK_COUNT> transition_map(TaskFlow);
 
 void taskInit()
@@ -34,4 +34,5 @@ void taskSchedule()
     transition_map.add(Setup, LOOP_ONCE, ActuatorTest);
     transition_map.add(ActuatorTest, LOOP_ONCE, Calibration);
     transition_map.add(Calibration, LOOP_ONCE, Loop);
+
 }

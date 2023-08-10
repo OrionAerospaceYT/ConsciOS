@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.h"
+#include "utility.h"
 
 // This is where we place long functions or repeated code
 /*Say hypothetically you have a filtering process you apply to your data 10

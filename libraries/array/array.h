@@ -1,5 +1,6 @@
 #pragma once
-#include "common.h"
+#include "utility.h"
+#include "skServo.h"
 
 template <typename R>
 struct Iterator {
@@ -37,18 +38,19 @@ struct Array {
     typedef Iterator<T> iterator;
     T data[Size];
     template <typename... Args>
-    explicit constexpr Array(const Args &...args) {
-        data = {args...};
-    }
+    explicit constexpr Array(const Args &...args) : data{args...}{}
     constexpr Array() : data{} {}
     T get(int i) {
         if (i < 0 || i > Size) {
+            sk_warn(i < 0 || i > Size, "Invalid Array Element")
             return data[Size];
         } else {
             return data[i];
         }
     }
-
+    int len() {
+        return Size;
+    }
     operator String() {
         String ret;
         for (auto i = 0; i < Size - 1; ++i) {
@@ -59,6 +61,44 @@ struct Array {
     }
     T operator[](int i) {
         if (i < 0 || i > Size) {
+            sk_warn(i < 0 || i > Size, "Invalid Array Element")
+            return data[Size];
+        } else {
+            return data[i];
+        }
+    }
+    iterator begin() { return iterator(&data[0]); }
+    iterator end() { return iterator(&data[Size]); }
+};
+
+template <size_t Size>
+struct skArray {
+    typedef Iterator<sk_servo*> iterator;
+    sk_servo* data[Size];
+    template <typename... Args>
+    explicit  skArray(Args ...args): data{args...}{}
+    sk_servo get(int i) {
+        if (i < 0 || i > Size) {
+            sk_warn(i < 0 || i > Size, "Invalid Array Element")
+            return data[Size];
+        } else {
+            return data[i];
+        }
+    }
+    int len() {
+        return Size;
+    }
+    operator String() {
+        String ret;
+        for (auto i = 0; i < Size - 1; ++i) {
+            ret += String(data[i]) + ",";
+        }
+        ret += String(data[Size - 1]);
+        return ret;
+    }
+    sk_servo operator[](int i) {
+        if (i < 0 || i > Size) {
+            sk_warn(i < 0 || i > Size, "Invalid Array Element")
             return data[Size];
         } else {
             return data[i];

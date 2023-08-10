@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.h"
+#include "utility.h"
 #include "sk_math.h"
 
 // Conversions Taken From Madgwick Paper
@@ -54,13 +54,12 @@ struct Quat {
     }
 
     // Quat to Quat operations
-    template <typename S>
     Quat operator*(const Quat &q) {
-        Quat<T> r;
-        r.w = T(w * q.w - i * q.i - j * q.j - k * q.k);
-        r.i = T(w * q.i + i * q.w + j * q.k - k * q.j);
-        r.j = T(w * q.j - i * q.k + j * q.w + k * q.i);
-        r.k = T(w * q.k + i * q.j - j * q.i + k * q.w);
+        Quat r;
+        r.w = w * q.w - i * q.i - j * q.j - k * q.k;
+        r.i = w * q.i + i * q.w + j * q.k - k * q.j;
+        r.j = w * q.j - i * q.k + j * q.w + k * q.i;
+        r.k = w * q.k + i * q.j - j * q.i + k * q.w;
         return r;
     }
 
@@ -68,10 +67,11 @@ struct Quat {
     // A by the multiplicative inverse of B
     Quat operator/(const Quat &q) {
         Quat r;
-        r.w = (q.w * w + q.i * i + q.j * j + q.k * k) / q.square();
-        r.i = (q.w * i - q.i * w - q.j * k + q.k * j) / q.square();
-        r.j = (q.w * j + q.i * k - q.j * w - q.k * i) / q.square();
-        r.k = (q.w * k - q.i * j - q.j * i - q.k * w) / q.square();
+        float q_sq = q.square();
+        r.w = (q.w * w + q.i * i + q.j * j + q.k * k) / (q_sq);
+        r.i = (q.w * i - q.i * w - q.j * k + q.k * j) / (q_sq);
+        r.j = (q.w * j + q.i * k - q.j * w - q.k * i) / (q_sq);
+        r.k = (q.w * k - q.i * j - q.j * i - q.k * w) / (q_sq);
         return r;
     }
     Quat operator+(const Quat &q) {
@@ -88,11 +88,10 @@ struct Quat {
     }
 
     // BOOL operations
-    template <typename S>
     bool operator==(const Quat &q) {
         return w == q.w && i == q.i && j == q.j && k == q.k;
     }
-    template <typename S>
+
     bool operator!=(const Quat &q) {
         return !(w == q.w && i == q.i && j == q.j && k == q.k);
     }
@@ -103,6 +102,7 @@ struct Quat {
         ypr[0] = atan2((2.0f) * (i * j + w * k), w * w + i * i - j * j - k * k);
         ypr[1] = -asin((2.0f) * (i * k - w * j));
         ypr[2] = atan2((2.0f) * (w * i + j * k), w * w - i * i - j * j + k * k);
+        return ypr;
     }
 
     // Convert to Euler Angles vector
@@ -133,11 +133,11 @@ struct Quat {
         Quat q;
         q.w = cos(z * 0.5f) * cos(y * 0.5f) * cos(x * 0.5f) +
               sin(z * 0.5f) * sin(y * 0.5f) * sin(x * 0.5f);
-        q.x = sin(z * 0.5f) * cos(y * 0.5f) * cos(x * 0.5f) -
+        q.i = sin(z * 0.5f) * cos(y * 0.5f) * cos(x * 0.5f) -
               cos(z * 0.5f) * sin(y * 0.5f) * sin(x * 0.5f);
-        q.y = cos(z * 0.5f) * sin(y * 0.5f) * cos(x * 0.5f) +
+        q.j = cos(z * 0.5f) * sin(y * 0.5f) * cos(x * 0.5f) +
               sin(z * 0.5f) * cos(y * 0.5f) * sin(x * 0.5f);
-        q.z = cos(z * 0.5f) * cos(y * 0.5f) * sin(x * 0.5f) -
+        q.k = cos(z * 0.5f) * cos(y * 0.5f) * sin(x * 0.5f) -
               sin(z * 0.5f) * sin(y * 0.5f) * cos(x * 0.5f);
         return q;
     }
@@ -147,14 +147,15 @@ struct Quat {
         Quat q;
         q.w = cos(v.z * 0.5f) * cos(v.y * 0.5f) * cos(v.x * 0.5f) +
               sin(v.z * 0.5f) * sin(v.y * 0.5f) * sin(v.x * 0.5f);
-        q.x = sin(v.z * 0.5f) * cos(v.y * 0.5f) * cos(v.x * 0.5f) -
+        q.i = sin(v.z * 0.5f) * cos(v.y * 0.5f) * cos(v.x * 0.5f) -
               cos(v.z * 0.5f) * sin(v.y * 0.5f) * sin(v.x * 0.5f);
-        q.y = cos(v.z * 0.5f) * sin(v.y * 0.5f) * cos(v.x * 0.5f) +
+        q.j = cos(v.z * 0.5f) * sin(v.y * 0.5f) * cos(v.x * 0.5f) +
               sin(v.z * 0.5f) * cos(v.y * 0.5f) * sin(v.x * 0.5f);
-        q.z = cos(v.z * 0.5f) * cos(v.y * 0.5f) * sin(v.x * 0.5f) -
+        q.k = cos(v.z * 0.5f) * cos(v.y * 0.5f) * sin(v.x * 0.5f) -
               sin(v.z * 0.5f) * sin(v.y * 0.5f) * cos(v.x * 0.5f);
         return q;
     }
+
     // BLA Matrix conversions
     template <typename S>
     Quat fromMat(const S &mat) {
@@ -170,9 +171,9 @@ struct Quat {
         return mat;
     }
 
-    float magnitude() { return sqrt(w * w + i * i + j * j + k * k); }
+    float magnitude() const { return sqrt(w * w + i * i + j * j + k * k); }
 
-    float square() { return w * w + i * i + j * j + k * k; }
+    float square() const { return w * w + i * i + j * j + k * k; }
 
     Quat squareElements() { return Quat(w * w, i * i, j * j, k * k); }
 

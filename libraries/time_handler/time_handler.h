@@ -1,8 +1,7 @@
 #pragma once
 
 #include <Wire.h>
-
-#include "common.h"
+#include "utility.h"
 
 struct Timer {
     uint32_t cycles = 0;
