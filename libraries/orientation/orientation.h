@@ -7,10 +7,10 @@
 // THIS NEEDS TO BE CHANGED
 /*
 struct Orientation {
-    Quat<> base;
-    Vec<> *ypr;
-    Orientation(Quat<> base, Vec<> &ypr) : base(base), ypr(&ypr) {}
-    explicit Orientation(const Vec<> &ypr) { ypr = ypr; }
+    Quat base;
+    Vec *ypr;
+    Orientation(Quat base, Vec &ypr) : base(base), ypr(&ypr) {}
+    explicit Orientation(const Vec &ypr) { ypr = ypr; }
     Orientation() = default;
     ~Orientation() = default;
     // purely gyro based orientation resolution

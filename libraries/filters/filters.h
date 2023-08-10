@@ -26,27 +26,20 @@ float filter(float Y, float U = 0){
   return x_hat;
 }
 
-    T filter(T Y, T U = 0) {
-        auto x_hat_new = A * x_hat + B * U;
-        P = A * P * A + Q;
-        auto K = P * C * (T(1) / (C * P * C + R));
-        x_hat_new += K * (Y - C * x_hat_new);
-        P = (T(1) - K * C) * P;
-        x_hat = x_hat_new;
-        return x_hat;
-    }
 };
 
+// First Order IIR lowpass filter
+// Given alpha (filter coeffecient)
+struct LowPassFilter {
+    float previous_output = 0.0f;
+    float alpha = 0.0f;
+    explicit LowPassFilter(float a) { 
+        alpha = a; 
+    }
 
-//First Order IIR lowpass filter 
-//Given alpha (filter coeffecient)
-struct LowPassFilter{
-float previous_output = 0;
-float alpha = 0;
-LowPassFilter(float a) : alpha(a){}
-float filter(float signal){
-	auto out = alpha*previous_output + (1.0f - alpha) * signal;
-	previous_output = out;
-	return out;
-}
+    float filter(float signal) {
+        previous_output = alpha * previous_output + (1.0f - alpha) * signal;
+        return previous_output;
+    }
+
 };
