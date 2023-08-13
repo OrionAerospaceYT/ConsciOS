@@ -28,38 +28,9 @@ namespace actuators{
   // Globals can be defined here
 
   void init(){
-    Wire.begin();
-    //test.attach(pins);
   }
 
   void write(){
-    Wire.beginTransmission(0x68);
-    PRINT("BUS1");
-    PRINT(Wire.endTransmission());
-    test.writeAll(0);
-    PRINT("zero")
-    END_LOG
-    delay(500);
-    test.writeAll(45);
-    PRINT("45")
-    END_LOG
-    delay(500);
-    test.writeAll(90);
-    PRINT("ninety")
-    END_LOG
-    delay(500);
-    test.writeAll(135);
-    PRINT("136");
-    END_LOG
-    delay(500);
-    test.writeAll(180);
-    PRINT("180")
-    delay(500);
-    END_LOG
-   test.writeAll(90);
-   delay(500);
-   //S0.write(0);
-   //delay(1000);
   }
 
 }  // namespace actuators
