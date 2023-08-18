@@ -10,16 +10,17 @@
 // You can change the Tasks in here, but make sure to follow the naming convention
 // These are the set of tasks our robot will complete
 //(Note: this does not specify the order)
-const int TASK_COUNT = 4;
+const int TASK_COUNT = 5;
 enum Task
 {
     Setup,
     ActuatorTest,
     Calibration,
-    Loop
+    Loop,
+    Loop2
 };
 Array<taskFunc, TASK_COUNT> TaskFlow(task::Setup, task::ActuatorTest, task::Calibration,
- task::Loop);
+ task::Loop,task::Loop2);
 TransitionMap<TASK_COUNT> transition_map(TaskFlow);
 
 void taskInit()
@@ -35,4 +36,6 @@ void taskSchedule()
     transition_map.add(ActuatorTest, LOOP_ONCE, Calibration);
     transition_map.add(Calibration, LOOP_ONCE, Loop);
 
+    transition_map.add(Loop, LOOP_ONCE, Loop2);
+    transition_map.add(Loop2, LOOP_ONCE, ActuatorTest);
 }
