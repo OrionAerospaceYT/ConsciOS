@@ -9,7 +9,6 @@ template <size_t Size>
 struct TransitionMap {
     Array<taskFunc, Size> task_funcs;
     int current_state = 0;
-    bool executed_check = 0;
     explicit TransitionMap(const Array<taskFunc, Size> &task) { this->task_funcs = task; }
     TransitionMap() = default;
     ~TransitionMap() = default;
@@ -19,14 +18,15 @@ struct TransitionMap {
     void add(int entry_state, int condition, int exit_state) {
         // check if entry state is current state, check if condition is true, if
         // condition true enter exit state
-        if (entry_state == current_state && condition == 1) {
-            PRINT("ASF")
-            current_state = exit_state;
-        }
-        if (current_state == entry_state || current_state == exit_state) {
+        if (current_state == entry_state) {
             const auto &task = task_funcs[current_state];
             task();
         }
+
+        if (entry_state == current_state && condition == 1) {
+            current_state = exit_state;
+        }
+
         if (entry_state == current_state && condition == -1) {
             current_state = exit_state;
         }
@@ -39,9 +39,11 @@ struct TransitionMap {
             const auto &task = task_funcs[current_state];
             task();
         }
+
         if (entry_state == current_state && condition == 1) {
             current_state = exit_state;
         }
+        
         if (entry_state == current_state && condition == 'a') {
             current_state = exit_state;
         }

@@ -2,11 +2,14 @@
 
 //-----Internals------
 #include "utility.h"
-#include "sidekick.h"
 #include "task_flow.h"
-
+#include "time_handler.h"
+#include "sidekick_state.h"
 
 //-----Internals------
+
+Timer sk_timer = Timer();
+SideKickState<> state_info = SideKickState<>();
 
 namespace sm {
 //------INTERNAL-----
@@ -14,6 +17,7 @@ namespace sm {
 void SM_UPDATE_LOOP() {
     taskSchedule();
 }
+
 
 void SM_INIT() {
     //stem::S0.attach(PS0);
@@ -28,7 +32,7 @@ void SM_INIT() {
     //stem::S9.attach(PS9);
     //stem::S10.attach(PS10);
     //stem::S11.attach(PS11);
-    SideKick();
+    Serial.begin(115200);
     taskInit();
 }
 //------INTERNAL-----

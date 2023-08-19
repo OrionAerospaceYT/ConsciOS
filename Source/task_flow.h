@@ -10,7 +10,7 @@
 // You can change the Tasks in here, but make sure to follow the naming convention
 // These are the set of tasks our robot will complete
 //(Note: this does not specify the order)
-const int TASK_COUNT = 5;
+#define TASK_COUNT 5
 enum Task
 {
     Setup,
@@ -38,4 +38,5 @@ void taskSchedule()
 
     transition_map.add(Loop, LOOP_ONCE, Loop2);
     transition_map.add(Loop2, LOOP_ONCE, ActuatorTest);
+    delay(500);
 }

@@ -111,14 +111,14 @@ uint8_t sk_servoCount = 0;                                    // the total numbe
 #define SERVO_MIN() (MIN_PULSE_WIDTH - this->min)   // minimum value in us for this servo
 #define SERVO_MAX() (MAX_PULSE_WIDTH - this->max)   // maximum value in us for this servo
 
-
-struct sk_servo{
+// Breaking lint convention for ease of use
+struct skServo{
     int min = MIN_PULSE_WIDTH;
     int max = MAX_PULSE_WIDTH;
     int servoIndex = 0;
     int pin = -1;
     Multiplexer multi = Multiplexer();
-    sk_servo(){
+    skServo(){
         if (sk_servoCount < MAX_SERVOS) {
             this->servoIndex = sk_servoCount++;
         } else {

@@ -5,7 +5,6 @@
 #include "actuators.h"
 #include "sub_task.h"
 #include "utility.h"
-#include "sidekick.h"
 //-----Internals------
 
 // Tasks go here-- this keeps the main file clean and focused on the "flow" of tasks
