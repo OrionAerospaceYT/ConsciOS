@@ -38,5 +38,4 @@ void taskSchedule()
 
     transition_map.add(Loop, LOOP_ONCE, Loop2);
     transition_map.add(Loop2, LOOP_ONCE, ActuatorTest);
-    delay(500);
 }

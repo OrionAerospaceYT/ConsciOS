@@ -18,7 +18,7 @@ struct TransitionMap {
     void add(int entry_state, int condition, int exit_state) {
         // check if entry state is current state, check if condition is true, if
         // condition true enter exit state
-        if (current_state == entry_state) {
+        if (current_state == entry_state || current_state == Size - 1) {
             const auto &task = task_funcs[current_state];
             task();
         }
@@ -35,7 +35,7 @@ struct TransitionMap {
     void add(int entry_state, char condition, int exit_state) {
         // check if entry state is current state, check if condition is true, if
         // condition true enter exit state
-        if (current_state == entry_state) {
+        if (current_state == entry_state || current_state == Size - 1) {
             const auto &task = task_funcs[current_state];
             task();
         }
