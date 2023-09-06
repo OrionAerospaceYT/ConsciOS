@@ -41,7 +41,9 @@ static int writeByte(T bus, uint8_t addr, uint8_t reg, uint8_t data){
     bus->beginTransmission(addr);
     bus->write(reg);
     bus->write(data);
-    return bus->endTransmission();
+    auto sad = bus->endTransmission();
+    PRINTLN(sad)
+    return sad;
 }
 
 template <typename T>

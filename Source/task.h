@@ -24,14 +24,15 @@ namespace task
     void Setup()
     {
         subtask::exampleLongFunc(); // you can delete this purely for demonstration
-        PRINTLN("SETUP")
+        sensors::init();
+        PRINTLN("Setup")
     }
 
     // Can be used to automatically test actuators
     // Very useful for quick plug and play testing
     void ActuatorTest()
     {
-        PRINTLN("ACTUATOR TEST")
+        PRINTLN("Act Test")
     }
 
     // Can be used to print sensor values and any other required calibration
@@ -43,12 +44,12 @@ namespace task
     // Code that loops
     void Loop()
     {
-        PRINTLN("LOOP")
         //actuators::write();
+        PRINTLN("LOOP")
     }
 
     void Loop2(){
-        PRINTLN("WEEEE")
+        sensors::update();
     }
 
 } // namespace task

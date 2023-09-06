@@ -26,7 +26,6 @@ struct Multiplexer{
     }
      
     void begin(){
-        sk_internal_bus.begin();
         reset();
     }
 

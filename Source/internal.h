@@ -5,7 +5,11 @@
 #include "task_flow.h"
 #include "time_handler.h"
 #include "sidekick_state.h"
-
+//Stem include wrapper 
+// NOTE: Not robust for regualr pico compiles
+#ifdef ARDUINO_ARCH_RP2040
+#include "stem.h"
+#endif
 //-----Internals------
 
 Timer sk_timer = Timer();
@@ -33,7 +37,9 @@ void SM_INIT() {
     //stem::S10.attach(PS10);
     //stem::S11.attach(PS11);
     Serial.begin(115200);
+    while(!Serial){}
     taskInit();
+    sk_internal_bus.begin();
 }
 //------INTERNAL-----
 }  // namespace sm
