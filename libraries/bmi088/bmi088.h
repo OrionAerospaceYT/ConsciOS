@@ -2,10 +2,10 @@
 
 #include "utility.h"
 #include "bmi_definitions.h"
-
-#include <Wire.h>
-// Thanks to Seed studio for their library which this is heavily influenced by
+#include "vector.h"
 #include "stem.h"
+
+// Thanks to Seed studio for their library which this is influenced by
 // https://github.com/Seeed-Studio/Grove_6Axis_Accelerometer_And_Gyroscope_BMI088/blob/master/BMI088.h
 
 
@@ -16,24 +16,25 @@ struct Imu{
 
     Imu(){}
 
+    
     void begin(){
         setAccScaleRange(RANGE_6G);
         setAccOutputDataRate(ODR_100);
         setAccPoweMode(ACC_ACTIVE);
-        setGyroScaleRange(RANGE_2000);
+        setGyroScaleRange(RANGE_250);
         setGyroOutputDataRate(ODR_2000_BW_532);
         setGyroPoweMode(GYRO_NORMAL); 
     }
 
     void setAccScaleRange(acc_scale_type_t range) {
         if (range == RANGE_3G) {
-            accRange = 3000;
+            accRange = 3.0f * BMI088_G_CONST;
         } else if (range == RANGE_6G) {
-            accRange = 6000;
+            accRange = 6.0f * BMI088_G_CONST;
         } else if (range == RANGE_12G) {
-            accRange = 12000;
+            accRange = 12.0f * BMI088_G_CONST;
         } else if (range == RANGE_24G) {
-            accRange = 24000;
+            accRange = 24.0f * BMI088_G_CONST;
         }
         internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_RANGE, (uint8_t)range);
     }
@@ -90,8 +91,7 @@ struct Imu{
             gyroRange = 125;
         }
 
-        auto test = internal::writeByte(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_RANGE, (uint8_t)range);
-        PRINTLN(test);
+        internal::writeByte(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_RANGE, (uint8_t)range);
 
     }
 
@@ -99,18 +99,52 @@ struct Imu{
         internal::writeByte(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_BAND_WIDTH, (uint8_t)odr);
         }
 
-
-    float getGyroscopeZ() {
-        uint16_t gz = 0;
+    Vec getGyro(){
+        Vec out;
+        uint8_t buf[6] = {0};
+        uint16_t gx = 0, gy = 0, gz = 0;
         float value = 0;
 
-        gz = read16(BMI088_GYRO_ADDRESS, BMI088_GYRO_RATE_Z_LSB);
+        internal::read(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_RATE_X_LSB, buf, 6);
+
+        gx = buf[0] | (buf[1] << 8);
+        gy = buf[2] | (buf[3] << 8);
+        gz = buf[4] | (buf[5] << 8);
+
+        value = (int16_t)gx;
+        out.x = gyroRange * value / 32767;
+
+        value = (int16_t)gy;
+        out.y = gyroRange * value / 32767;
 
         value = (int16_t)gz;
-        value = gyroRange * value / 32768;
-
-        return value;
+        out.z = gyroRange * value / 32767;
+        return out;
     }
+
+    Vec getAccel(){
+        Vec out;
+        uint8_t buf[6] = {0};
+        uint16_t ax = 0, ay = 0, az = 0;
+        float value = 0;
+
+        internal::read(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_X_LSB, buf, 6);
+
+        ax = buf[0] | (buf[1] << 8);
+        ay = buf[2] | (buf[3] << 8);
+        az = buf[4] | (buf[5] << 8);
+
+        value = (int16_t)ax;
+        out.x = accRange * value / 32767;
+
+        value = (int16_t)ay;
+        out.y = accRange * value / 32767;
+
+        value = (int16_t)az;
+        out.z = accRange * value / 32767;
+        return out;
+    }
+
 
     uint16_t read16(uint8_t addr, uint8_t reg) {
         uint16_t msb = 0, lsb = 0;

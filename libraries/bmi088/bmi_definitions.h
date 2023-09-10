@@ -65,6 +65,8 @@
 
 #define BMI088_GYRO_SELF_TEST           0x3C
 
+#define BMI088_G_CONST 9.806f
+
 enum device_type_t { // device type
     ACC = 0x00, //
     GYRO = 0x01, //

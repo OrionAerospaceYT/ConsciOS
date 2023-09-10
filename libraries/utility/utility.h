@@ -37,12 +37,25 @@
 namespace internal {
 
 template <typename T>
+void read(T bus, uint8_t addr, uint8_t reg, uint8_t* buf, uint16_t len) {
+    bus->beginTransmission(addr);
+    bus->write(reg);
+    bus->endTransmission();
+
+    bus->requestFrom(addr, len);
+    while (bus->available()) {
+        for (uint16_t i = 0; i < len; i ++) {
+            buf[i] = bus->read();
+        }
+    }
+}
+
+template <typename T>
 static int writeByte(T bus, uint8_t addr, uint8_t reg, uint8_t data){
     bus->beginTransmission(addr);
     bus->write(reg);
     bus->write(data);
     auto sad = bus->endTransmission();
-    PRINTLN(sad)
     return sad;
 }
 

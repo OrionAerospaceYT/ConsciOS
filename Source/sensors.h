@@ -13,7 +13,10 @@ void init() {
 }
 
 void update() {
-    GRAPH("cum",cum.getGyroscopeZ(),TOP);
+    Vec test = cum.getAccel();
+    GRAPH("x",test.x,TOP)
+    GRAPH("y",test.y,TOP)
+    GRAPH("z",test.z,TOP)
     END_LOG
 }
 
