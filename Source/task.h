@@ -24,7 +24,6 @@ namespace task
     void Setup()
     {
         subtask::exampleLongFunc(); // you can delete this purely for demonstration
-        sensors::init();
         PRINTLN("Setup")
     }
 
@@ -38,6 +37,7 @@ namespace task
     // Can be used to print sensor values and any other required calibration
     void Calibration()
     {
+        sensors::init();
         PRINTLN("CALIB")
     }
 

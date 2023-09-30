@@ -3,10 +3,13 @@
 #include "utility.h"
 #include "bmi_definitions.h"
 #include "vector.h"
+
 #include "stem.h"
 
 // Thanks to Seed studio for their library which this is influenced by
 // https://github.com/Seeed-Studio/Grove_6Axis_Accelerometer_And_Gyroscope_BMI088/blob/master/BMI088.h
+// Note: consider making universal and useable outside sk framework...
+
 
 
 struct Imu{
@@ -15,7 +18,6 @@ struct Imu{
     float gyroRange = 0.0f;
 
     Imu(){}
-
     
     void begin(){
         setAccScaleRange(RANGE_6G);
@@ -153,12 +155,8 @@ struct Imu{
         sk_internal_bus.endTransmission();
 
         sk_internal_bus.requestFrom(addr, (uint8_t)2);
-        while (sk_internal_bus.available()) {
-            lsb = sk_internal_bus.read();
-            msb = sk_internal_bus.read();
-        }
 
-        return (lsb | (msb << 8));
+        return (sk_internal_bus.read() << 8) | sk_internal_bus.read();
     }
 
 };

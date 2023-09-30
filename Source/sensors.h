@@ -4,19 +4,23 @@
 #include "sensor_struct.h"
 //-----Internals------
 #include "bmi088.h"
+#include "bmp280.h"
 // Include your sensor libraries here
 namespace sensors {
 
-Imu cum;
+Baro bmp;
 void init() {
-    cum.begin();
+    bmp.begin();
 }
 
 void update() {
-    Vec test = cum.getAccel();
-    GRAPH("x",test.x,TOP)
-    GRAPH("y",test.y,TOP)
-    GRAPH("z",test.z,TOP)
+    auto t = bmp.readTemperature();
+    auto p = bmp.readPressure();
+    PRINTLN(t);
+    //auto vec = bmi.getAccel();
+    GRAPH("x",t,TOP)
+    GRAPH("x",p,BOT)
+    //GRAPH("yro",vec.x,TOP)
     END_LOG
 }
 
