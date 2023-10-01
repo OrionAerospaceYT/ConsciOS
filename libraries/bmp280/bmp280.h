@@ -16,7 +16,9 @@ struct Baro{
     bmp280_calib_data bmp280_calib;
     config configReg;
     ctrl_meas measReg;
-    int32_t t_fine;
+    int32_t t_fine = 0;
+    float sea_level_pres = 1013.25; // default value
+    float ground_level_alt = 0;
 
     void begin(){
         readCalib();
@@ -57,8 +59,37 @@ struct Baro{
 
     }
 
+    float setSeaLevel(float altitude, float atmospheric){
+        sea_level_pres = atmospheric / pow(1.0 - (altitude / 44330.0), 5.255);
+        return sea_level_pres;
+    }
+
+    float getAlt(){
+        float pressure = getPres(); 
+        pressure /= 100;
+
+        float altitude = 44330 * (1.0 - pow(pressure / sea_level_pres, 0.1903));
+
+        return altitude;
+    }
+
+
+    float setGroundLevel(){
+        ground_level_alt = getAlt();
+        return ground_level_alt;
+    }
+
+    float getAGL(){
+        float pressure = getPres(); 
+        pressure /= 100;
+
+        float altitude = 44330 * (1.0 - pow(pressure / sea_level_pres, 0.1903));
+
+        return altitude - ground_level_alt;
+    }
+
    // returns temp in celsius
-   float readTemperature() {
+   float getTemp() {
         int32_t var1 = 0;
         int32_t var2 = 0;
         int32_t adc_T = read24(BMP280_REGISTER_TEMPDATA);
@@ -71,15 +102,14 @@ struct Baro{
                 12) *
                 ((int32_t)bmp280_calib.dig_T3)) >>
                 14;
-        PRINTLN("var1:" + String(var1) + " var2:" + String(var2));
         t_fine = var1 + var2;
         float T = (t_fine * 5 + 128) >> 8;
         return T / 100.0f;
     } 
 
-    float readPressure() {
+    float getPres() {
         int64_t var1, var2, p;
-        readTemperature(); //check if this is really needed
+        getTfine(); 
         int32_t adc_P = read24(BMP280_REGISTER_PRESSUREDATA);
         adc_P >>= 4;
 
@@ -93,7 +123,7 @@ struct Baro{
             (((((int64_t)1) << 47) + var1)) * ((int64_t)bmp280_calib.dig_P1) >> 33;
 
         if (var1 == 0) {
-            return 0; // avoid exception caused by division by zero
+            return 0; 
         }
         p = 1048576 - adc_P;
         p = (((p << 31) - var2) * 3125) / var1;
@@ -102,6 +132,29 @@ struct Baro{
 
         p = ((p + var1 + var2) >> 8) + (((int64_t)bmp280_calib.dig_P7) << 4);
         return (float)p / 256;
+    }
+
+
+
+    // just removes the last line of compute super marginal but saves that little extra
+    void getTfine(){
+        int32_t var1 = 0;
+        int32_t var2 = 0;
+        int32_t adc_T = read24(BMP280_REGISTER_TEMPDATA);
+        adc_T >>= 4;
+        var1 = ((((adc_T >> 3) - ((int32_t)bmp280_calib.dig_T1 << 1))) *
+                ((int32_t)bmp280_calib.dig_T2)) >>
+                11;     
+        var2 = (((((adc_T >> 4) - ((int32_t)bmp280_calib.dig_T1)) *
+                    ((adc_T >> 4) - ((int32_t)bmp280_calib.dig_T1))) >>
+                12) *
+                ((int32_t)bmp280_calib.dig_T3)) >>
+                14;
+        t_fine = var1 + var2;
+    }
+
+    void reset(){
+        internal::writeByte(&sk_internal_bus,BMP280_ADDRESS,BMP280_REGISTER_SOFTRESET, MODE_SOFT_RESET_CODE);
     }
 
     int16_t read16_LE(uint8_t reg)
@@ -113,27 +166,11 @@ struct Baro{
         return (value >> 8) | (value << 8);
     }
 
-    /*!
-    * \brief Read from 16-bit signed register little endian
-    * \param reg
-    *      Register address
-    * \return
-    *      16-bit signed register value in little endian
-    */
-    int16_t readS16_LE(uint8_t reg)
-    {
+    int16_t readS16_LE(uint8_t reg){
         return (int16_t)read16_LE(reg);
     }
 
-    /*!
-    * \brief Read from 16-bit register
-    * \param reg
-    *      Register address
-    * \return
-    *      16-bit register value
-    */
-    uint16_t read16(uint8_t reg)
-    {
+    uint16_t read16(uint8_t reg){
         sk_internal_bus.beginTransmission(BMP280_ADDRESS);
         sk_internal_bus.write(reg);
         if (sk_internal_bus.endTransmission() != 0) {
@@ -143,15 +180,7 @@ struct Baro{
         return (sk_internal_bus.read() << 8) | sk_internal_bus.read();
     }
 
-    /*!
-    * \brief Read from 24-bit register
-    * \param reg
-    *      Register address
-    * \return
-    *      24-bit register value
-    */
-    uint32_t read24(uint8_t reg)
-    {
+    uint32_t read24(uint8_t reg){
         uint32_t value;
 
         sk_internal_bus.beginTransmission(BMP280_ADDRESS);
@@ -167,4 +196,5 @@ struct Baro{
 
         return value;
     }
+
 };

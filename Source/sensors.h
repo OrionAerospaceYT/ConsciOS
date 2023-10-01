@@ -11,15 +11,15 @@ namespace sensors {
 Baro bmp;
 void init() {
     bmp.begin();
+    bmp.setGroundLevel();
 }
 
 void update() {
-    auto t = bmp.readTemperature();
-    auto p = bmp.readPressure();
-    PRINTLN(t);
+    auto t = bmp.getTemp();
+    auto agl = bmp.getAGL();
     //auto vec = bmi.getAccel();
     GRAPH("x",t,TOP)
-    GRAPH("x",p,BOT)
+    GRAPH("alt",agl,BOT)
     //GRAPH("yro",vec.x,TOP)
     END_LOG
 }
