@@ -70,19 +70,18 @@ static uint8_t readByte(T bus, uint8_t addr, uint8_t reg){
 }
 static bool assertionCheck(bool condition, String conditionS, String file,
                            int line, String message) {
-    if (condition) {
+    if (!condition) {
         return true;
     }
-    PRINT("-------------------------");
+    delay(1000);
+    while (true) {
     PRINT("Assertion failed!");
     PRINT("Condition: " + conditionS);
     PRINT("File: " + file);
     PRINT("Line: " + String(line));
     PRINT(message);
-    PRINT("-------------------------");
-    while (true) {
+    END_LOG;
     }
-    return false;
 }
 static bool warnCheck(bool condition, String conditionS, String file, int line,
                       String message) {

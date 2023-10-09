@@ -2,7 +2,6 @@
 
 #include "utility.h"
 #include "bmp_definitions.h"
-#include "vector.h"
 
 #include "stem.h"
 
@@ -21,6 +20,7 @@ struct Baro{
     float ground_level_alt = 0;
 
     void begin(){
+        delay(1000);
         readCalib();
         setSampling();
 
@@ -54,7 +54,8 @@ struct Baro{
         configReg.filter = filter;
         configReg.t_sb = duration;
 
-        internal::writeByte(&sk_internal_bus, BMP280_ADDRESS, BMP280_REGISTER_CONFIG, configReg.get());
+        auto check = internal::writeByte(&sk_internal_bus, BMP280_ADDRESS, BMP280_REGISTER_CONFIG, configReg.get());
+        sk_assert(check != 0 ,"INIT OF ONBOARD PRESSURE SENSOR FAILED");
         internal::writeByte(&sk_internal_bus, BMP280_ADDRESS, BMP280_REGISTER_CONTROL, measReg.get());
 
     }

@@ -38,7 +38,8 @@ struct Imu{
         } else if (range == RANGE_24G) {
             accRange = 24.0f * BMI088_G_CONST;
         }
-        internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_RANGE, (uint8_t)range);
+        auto check = internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_RANGE, (uint8_t)range);
+        sk_assert(check != 0,"INIT OF ONBOARD IMU FAILED");
     }
 
     void resetAcc(void) {

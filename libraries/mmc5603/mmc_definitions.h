@@ -1,0 +1,15 @@
+#pragma once 
+
+#define MMC56X3_ADDRESS 0x30 
+#define MMC56X3_CHIP_ID 0x10        
+
+#define MMC56X3_PRODUCT_ID  0x39
+#define MMC56X3_CTRL0_REG  0x1B
+#define MMC56X3_CTRL1_REG  0x1C
+#define MMC56X3_CTRL2_REG  0x1D
+#define MMC56X3_STATUS_REG  0x18
+#define MMC56X3_OUT_TEMP  0x09
+#define MMC56X3_OUT_X_L  0x00
+#define MMC5603_ODR_REG  0x1A
+
+
