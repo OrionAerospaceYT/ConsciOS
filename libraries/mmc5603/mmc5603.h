@@ -15,14 +15,27 @@ struct Mag{
     void begin(){
         auto check = internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL1_REG, 0x80);
         sk_assert(check != 0,"INIT OF ONBOARD MAG FAILED");
+        PRINTLN(check)
         delay(20);
-        magnetReset();
+        reset();
+
     }
 
+
+    void reset(){
+        internal::writeByte(&sk_internal_bus, MMC56X3_ADDRESS,MMC56X3_CTRL1_REG,0x80);
+        magnetReset();
+        setContinousRead(false);
+
+    }
     void magnetReset(){
-        internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL0_REG, 0x80);
+        auto check = internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL0_REG, 0x80);
+        sk_assert(check !=0, "2");
+        PRINTLN(check)
         delay(1);
-        internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL0_REG, 0x10);
+        auto check2 = internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL0_REG, 0x10);
+        sk_assert(check2 !=0, "3");
+        PRINTLN(check2)
         delay(1);
     }
 
@@ -30,7 +43,9 @@ struct Mag{
         uint8_t ctrl2 = 0;
         if(mode){
             continous_mode = mode;
-            internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL0_REG,0x80);
+            auto check = internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL0_REG,0x80);
+            sk_assert(check != 0, "4");
+            PRINTLN(check)
             ctrl2 |= 0x10;
         }else{
             continous_mode = mode;
@@ -41,7 +56,7 @@ struct Mag{
 
     Vec getMag(){
         Vec out;
-
+        int32_t x,y,z;
         if(!continous_mode){
             internal::writeByte(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_CTRL0_REG,0x01);
         }
@@ -50,23 +65,24 @@ struct Mag{
         uint8_t buffer[9];
         
         internal::read(&sk_internal_bus,MMC56X3_ADDRESS,MMC56X3_OUT_X_L,buffer,9);
-
         //PRINTLN(buffer[0]);
 
-        out.x = (uint32_t)buffer[0] << 12 | (uint32_t)buffer[1] << 4 |
+        x = (uint32_t)buffer[0] << 12 | (uint32_t)buffer[1] << 4 |
             (uint32_t)buffer[6] >> 4;
-        out.y = (uint32_t)buffer[2] << 12 | (uint32_t)buffer[3] << 4 |
+        y = (uint32_t)buffer[2] << 12 | (uint32_t)buffer[3] << 4 |
             (uint32_t)buffer[7] >> 4;
-        out.z = (uint32_t)buffer[4] << 12 | (uint32_t)buffer[5] << 4 |
+        z = (uint32_t)buffer[4] << 12 | (uint32_t)buffer[5] << 4 |
             (uint32_t)buffer[8] >> 4;
 
-
         // fix center offsets
-        out.x -= (uint32_t)1 << 19;
-        out.y -= (uint32_t)1 << 19;
-        out.z -= (uint32_t)1 << 19;
+        x -= (uint32_t)1 << 19;
+        y -= (uint32_t)1 << 19;
+        z -= (uint32_t)1 << 19;
 
-        out = out * 0.00625;
+        out.x = (float)x * 0.00625;
+        out.y = (float)y * 0.00625;
+        out.z = (float)z * 0.00625;
+
         return out;
     }
 
