@@ -1,6 +1,6 @@
 #pragma once 
 #include "sk_math.h"
-#include "Array.h"
+#include "array.h"
 #include "actuator_struct.h"
 
 #define SMOOTH 1
