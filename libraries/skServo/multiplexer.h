@@ -21,16 +21,14 @@
 #endif
 
 struct Multiplexer{
-    Multiplexer(){
-        begin();
-    }
+    Multiplexer(){}
      
     void begin(){
         reset();
     }
 
     void reset(){
-        internal::writeByte(&sk_internal_bus,ADDR,MODE1,RESTART);
+        auto check = internal::writeByte(&sk_internal_bus,ADDR,MODE1,RESTART);
     }
 
     int readPrescale(){
@@ -64,7 +62,7 @@ struct Multiplexer{
         sk_internal_bus.write(start >> 8);
         sk_internal_bus.write(end);
         sk_internal_bus.write(end >> 8);
-        return sk_internal_bus.endTransmission();
+        sk_internal_bus.endTransmission();
     }
 
     void writeMicroseconds(int num, float microseconds){

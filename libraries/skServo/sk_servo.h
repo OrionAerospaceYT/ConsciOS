@@ -138,6 +138,7 @@ struct skServo{
             PRINT("Can't re-assign sk_servo pins");
             return this->pin;
         }
+        multi.begin(); // adding this in as attach is kind of servo begin call 
         this->pin = pin;
         multi.setPWMFreq(50);
         return this->pin;

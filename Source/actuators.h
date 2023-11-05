@@ -10,7 +10,7 @@
 //-----Internals------
 #include <Servo.h>
 // Include your Actuator libraries here
-
+#include "skServo.h"
 
 namespace actuators{
 
@@ -20,6 +20,10 @@ namespace actuators{
   }
 
   void write(){
+    stem::S1.write(90);
+    delay(100);
+    stem::S1.write(180);
+    delay(100);
   }
 
 }  // namespace actuators
