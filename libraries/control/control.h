@@ -23,26 +23,35 @@ struct PID {
         max_lim = max;
         lims_set = true;
     }
-    void setSetpoint(T new_setpoint) { setpoint = new_setpoint; }
+
+    void setSetpoint(T new_setpoint) {
+      setpoint = new_setpoint;
+    }
+
     T update(T input, T dt) {
-        auto error = setpoint - input;
+      auto error = setpoint - input;
 
-        // assert dt must not be 0
-        auto derivative_err = (error - previous_err) / dt;
+      // assert dt must not be 0
+      auto derivative_err = (error - previous_err) / dt;
 
-        integral_err += error * dt;
+      integral_err += error * dt;
 
-        auto output = kp * error + ki * integral_err + kd * derivative_err;
+      auto output = kp * error + ki * integral_err + kd * derivative_err;
 
-        previous_err = error;
+      previous_err = error;
 
-        if (lims_set) {
-            if (output > max_lim) {
-                output = max_lim;
-            } else if (output < min_lim) {
-                output = min_lim;
-            }
-        }
-        return output;
+      if (lims_set) {
+          if (output > max_lim) {
+              output = max_lim;
+          } else if (output < min_lim) {
+              output = min_lim;
+          }
+          if (integral_err > max_lim) {
+              integral_err = max_lim;
+          } else if (integral_err < min_lim) {
+              integral_err = min_lim;
+          }
+      }
+      return output;
     }
 };
