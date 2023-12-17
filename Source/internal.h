@@ -2,7 +2,6 @@
 
 //-----Internals------
 #include "utility.h"
-#include "skServo.h"
 #include "sidekick.h"
 #include "task_flow.h"
 //-----Internals------
@@ -15,18 +14,6 @@ void SM_UPDATE_LOOP() {
 }
 
 void SM_INIT() {
-    stem::S0.attach(PS0);
-    stem::S1.attach(PS1);
-    stem::S2.attach(PS2);
-    stem::S3.attach(PS3);
-    stem::S4.attach(PS4);
-    stem::S5.attach(PS5);
-    stem::S6.attach(PS6);
-    stem::S7.attach(PS7);
-    stem::S8.attach(PS8);
-    stem::S9.attach(PS9);
-    stem::S10.attach(PS10);
-    stem::S11.attach(PS11);
     SideKick();
     taskInit();
 }

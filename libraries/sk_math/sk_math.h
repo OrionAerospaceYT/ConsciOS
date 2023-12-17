@@ -2,7 +2,6 @@
 
 // unsure if this is good to have in here but for now we have internal
 namespace internal {
-
 template <typename T, typename U>
 T pointDiff(const T &p1, const T &p2, const U step) {
     return T(p1.x + ((p2.x - p1.x) * step), (p1.y + ((p2.y - p1.y) * step)));
@@ -38,17 +37,19 @@ T SIGN(const T value) {
 }
 
 // Linear interpolation between two points
-float LERP(const float min, const float max, const float interpolationPoint) {
-    return float(min + interpolationPoint * (max - min));
+template <typename T>
+T LERP(const T min, const T max, const T interpolationPoint) {
+    return T(min + interpolationPoint * (max - min));
 }
 
 // A linear interpolation with a slight bezier to the interp to make it smooth
 // https://gamedevbeginner.com/the-right-way-to-lerp-in-unity-with-examples/
+template <typename T>
+T SMOOTHLERP(const T min, const T max, const T interpolation_point) {
+    auto t = interpolation_point * interpolation_point * (3.0f - 2.0f * interpolation_point);
+    return LERP(min,max,t);
+}
 
-float SMOOTHLERP(const float min, const float max, const float interpolationPoint) {
-    return float(min + ((interpolationPoint * interpolationPoint) *
-                    (3 * 2 * interpolationPoint)) *
-                       (max - min));
 // Maps a given value from one range to the other
 template <typename T>
 T MAP(T x, T input_start, T input_end, T output_start, T output_end){
@@ -61,7 +62,8 @@ T MAP(T x, T input_start, T input_end, T output_start, T output_end){
 // A quadratic Bezier between 3 points
 // Takes in two vectors and assumes the first two values are the points
 // this function should be wrapped into a a for loop to function continously
-float QUADBEZIER2D(const float &p1, const float &p2, const float &p3, const U step) {
+template <typename T, typename U>
+T QUADBEZIER2D(const T &p1, const T &p2, const T &p3, const U step) {
     auto a1 = internal::pointDiff(p1, p2, step);
     auto a2 = internal::pointDiff(p2, p3, step);
     return internal::pointDiff(a1, a2, step);
@@ -69,10 +71,10 @@ float QUADBEZIER2D(const float &p1, const float &p2, const float &p3, const U st
 
 // finds the earth relative acceleration given the two angles
 template <typename T>
-float EARfloatHA(const float accel, const float phi, const float theta) {
+T EARTHA(const T accel, const T phi, const T theta) {
     return (accel /
-            (sqrt(1.0 - ((sin(theta * float(DEG2RAD)) * sin(theta * float(DEG2RAD))) +
-                         (sin(phi * float(DEG2RAD)) * sin(phi * float(DEG2RAD)))))));
+            (sqrt(1.0 - ((sin(theta * T(DEG2RAD)) * sin(theta * T(DEG2RAD))) +
+                         (sin(phi * T(DEG2RAD)) * sin(phi * T(DEG2RAD)))))));
 }
 
 // https:/www.tutorialspoint.com/fast-inverse-square-root-in-cplusplus/
