@@ -26,6 +26,10 @@
     Serial.print("t("); \
     Serial.print(text); \
     Serial.println(")");
+#define PRINTF(float, places)  \
+    Serial.print("t("); \
+    Serial.print(float,places); \
+    Serial.print(")");
 #define PRINTHEX(text)     \
     Serial.print("t("); \
     Serial.print(text,HEX) \
