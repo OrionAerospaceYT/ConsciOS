@@ -10,34 +10,38 @@
     internal::warnCheck(condition, #condition, __FILE__, __LINE__, message);
 
 // Graphing macros
+#define TERMINAL_BEGINNING "q8_Q7"
+#define TERMINAL_ENDING "I761r"
+#define GRAPHING_BEGINNING "l058~"
+#define GRAPHING_ENDING "zC43_"
 #define TOP ",1,"
 #define BOT ",2,"
 #define GRAPH(name, data, type) \
-    Serial.print("0x393*");         \
+    Serial.print(GRAPHING_BEGINNING);         \
     Serial.print(name);         \
     Serial.print(type);         \
     Serial.print(data);         \
-    Serial.print("0x3B3*");
+    Serial.print(GRAPHING_ENDING);
 #define PRINT(text)     \
-    Serial.print("0x3A4*"); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(text); \
-    Serial.print("0x3C4*");
+    Serial.print(TERMINAL_ENDING);
 #define PRINTLN(text)     \
-    Serial.print("0x3A4*"); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(text); \
-    Serial.println("0x3C4*");
+    Serial.println(TERMINAL_ENDING);
 #define PRINTHEX(text)     \
-    Serial.print("0x3A4*"); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(text,HEX) \
-    Serial.println("0x3C4*");
+    Serial.println(TERMINAL_ENDING);
 #define PRINTF(float, places)  \
-    Serial.print("0x3A4*"); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(float,places); \
-    Serial.print("0x3C4*");
+    Serial.print(TERMINAL_ENDING);
 #define PRINTFLN(float, places)  \
-    Serial.print("0x3A4*"); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(float,places); \
-    Serial.println("0x3C4*");
+    Serial.println(TERMINAL_ENDING);
 #define PRINTRAW(text) Serial.print(text);
 #define PRINTRAWLN(text) Serial.println(text);
 #define END_LOG Serial.println();
