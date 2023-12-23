@@ -49,7 +49,7 @@ namespace task
     }
 
     void Loop2(){
-        //sensors::update();
+        sensors::update();
         actuators::write();
     }
 

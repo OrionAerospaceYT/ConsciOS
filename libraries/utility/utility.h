@@ -13,27 +13,31 @@
 #define TOP ",1,"
 #define BOT ",2,"
 #define GRAPH(name, data, type) \
-    Serial.print("g(");         \
+    Serial.print("0x393*");         \
     Serial.print(name);         \
     Serial.print(type);         \
     Serial.print(data);         \
-    Serial.print(")");
+    Serial.print("0x3B3*");
 #define PRINT(text)     \
-    Serial.print("t("); \
+    Serial.print("0x3A4*"); \
     Serial.print(text); \
-    Serial.print(")");
+    Serial.print("0x3C4*");
 #define PRINTLN(text)     \
-    Serial.print("t("); \
+    Serial.print("0x3A4*"); \
     Serial.print(text); \
-    Serial.println(")");
-#define PRINTF(float, places)  \
-    Serial.print("t("); \
-    Serial.print(float,places); \
-    Serial.print(")");
+    Serial.println("0x3C4*");
 #define PRINTHEX(text)     \
-    Serial.print("t("); \
+    Serial.print("0x3A4*"); \
     Serial.print(text,HEX) \
-    Serial.println(")");
+    Serial.println("0x3C4*");
+#define PRINTF(float, places)  \
+    Serial.print("0x3A4*"); \
+    Serial.print(float,places); \
+    Serial.print("0x3C4*");
+#define PRINTFLN(float, places)  \
+    Serial.print("0x3A4*"); \
+    Serial.print(float,places); \
+    Serial.println("0x3C4*");
 #define PRINTRAW(text) Serial.print(text);
 #define PRINTRAWLN(text) Serial.println(text);
 #define END_LOG Serial.println();

@@ -6,6 +6,7 @@
 #include "bmi088.h"
 #include "bmp280.h"
 #include "mmc5603.h"
+#include "filters.h"
 
 // Include your sensor libraries here
 namespace sensors {
@@ -13,6 +14,9 @@ namespace sensors {
 Imu bmi;
 Baro bmp;
 Mag mmc;
+LowPassFilter roll_fil(0.9);
+LowPassFilter pitch_fil(0.9);
+
 void init() {
     bmp.begin();
     bmp.setGroundLevel();
@@ -20,17 +24,21 @@ void init() {
     bmi.begin();
 }
 
+Vec accelToAngle(Vec accel){
+    Vec out;
+    out.x = atan2(accel.y, accel.z) * RAD2DEG;
+    out.y = atan2(-accel.x, sqrt(accel.y*accel.y + accel.z*accel.z)) * RAD2DEG;
+   return out; 
+}
+
 void update() {
-    auto t = bmp.getTemp();
-    auto agl = bmp.getAGL();
-    auto ma = mmc.getMag();
     auto vec = bmi.getAccel();
-    //GRAPH("x",ma.x,TOP)
-    //GRAPH("y",ma.y,TOP)
-    //GRAPH("z",ma.z,TOP)
-    //PRINT(ma.z);
-    //GRAPH("yro",vec.x,TOP)
-    END_LOG
+    // z and x swap z senses negative 9.8 x now senses positive 9.8
+    Vec resolved = Vec(vec.z,vec.y,-vec.x);
+    auto ori = accelToAngle(vec);
+    GRAPH("roll",ori.x,TOP);
+    GRAPH("pitch",ori.y,BOT);
+    END_LOG;
 }
 
 }  // namespace sensors
