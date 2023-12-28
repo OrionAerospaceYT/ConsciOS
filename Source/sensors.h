@@ -15,7 +15,7 @@ Imu bmi;
 Baro bmp;
 Mag mmc;
 LowPassFilter roll_fil(0.9);
-LowPassFilter pitch_fil(0.9);
+LowPassFilter pitch_fil(0.95);
 
 void init() {
     bmp.begin();
@@ -28,17 +28,17 @@ Vec accelToAngle(Vec accel){
     Vec out;
     out.x = atan2(accel.y, accel.z) * RAD2DEG;
     out.y = atan2(-accel.x, sqrt(accel.y*accel.y + accel.z*accel.z)) * RAD2DEG;
+    out.y = pitch_fil.filter(out.y);
    return out; 
 }
 
-void update() {
+Vec update() {
     auto vec = bmi.getAccel();
     // z and x swap z senses negative 9.8 x now senses positive 9.8
     Vec resolved = Vec(vec.z,vec.y,-vec.x);
-    auto ori = accelToAngle(vec);
-    GRAPH("roll",ori.x,TOP);
-    GRAPH("pitch",ori.y,BOT);
-    END_LOG;
+    auto ori = accelToAngle(resolved);
+    GRAPH("Pitch",ori.y,TOP);
+    return ori;
 }
 
 }  // namespace sensors

@@ -19,7 +19,12 @@ namespace actuators{
   void init(){
   }
 
-  void write(){
+  void write(float input){
+    PRINTLN(input);
+    stem::S1.write(input);
+    stem::S4.write(input);
+
+
   }
 
 }  // namespace actuators

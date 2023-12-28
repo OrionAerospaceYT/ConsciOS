@@ -3,40 +3,39 @@
 // Simple controller definitions
 
 // PID controller
-template <typename T = float>
 struct PID {
-    T kp;
-    T ki;
-    T kd;
-    T setpoint;
-    T integral_err;
-    T previous_err;
-    T min_lim;
-    T max_lim;
+    float kp = 0.0f;
+    float ki = 0.0f;
+    float kd = 0.0f;
+    float setpoint = 0.0f;
+    float integral_err = 0.0f;
+    float previous_err = 0.0f;
+    float min_lim = -1000.0;
+    float max_lim = 1000.0f;
     bool lims_set = false;
 
-    PID(T p_gain, T i_gain, T d_gain, T setpoint = 0)
+    PID(float p_gain, float i_gain, float d_gain, float setpoint = 0.0f)
         : kp(p_gain), ki(i_gain), kd(d_gain), setpoint(setpoint) {}
 
-    void setlims(T min, T max) {
+    void setlims(float min, float max) {
         min_lim = min;
         max_lim = max;
         lims_set = true;
     }
 
-    void setSetpoint(T new_setpoint) {
+    void setSetpoint(float new_setpoint) {
       setpoint = new_setpoint;
     }
 
-    T update(T input, T dt) {
-      auto error = setpoint - input;
+    float compute(float input, float dt) {
+      float error = setpoint - input;
 
       // assert dt must not be 0
-      auto derivative_err = (error - previous_err) / dt;
+      float derivative_err = (error - previous_err) / dt;
 
       integral_err += error * dt;
 
-      auto output = kp * error + ki * integral_err + kd * derivative_err;
+      float output = kp * error + ki * integral_err + kd * derivative_err;
 
       previous_err = error;
 
