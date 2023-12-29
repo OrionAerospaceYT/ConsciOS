@@ -32,6 +32,15 @@ Vec accelToAngle(Vec accel){
    return out; 
 }
 
+Vec getAccel(){
+    Vec temp = bmi.getAccel();
+    return Vec(temp.x,temp.y,-temp.z);
+}
+
+Vec getGyro(){
+    return bmi.getGyro();
+}
+
 Vec update() {
     auto vec = bmi.getAccel();
     // z and x swap z senses negative 9.8 x now senses positive 9.8

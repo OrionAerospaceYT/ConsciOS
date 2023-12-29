@@ -9,6 +9,8 @@
 #include "time_handler.h"
 //-----Internals------
 
+#include "orientation.h"
+
 // Tasks go here-- this keeps the main file clean and focused on the "flow" of tasks
 // Our general functions will be defined here things like our main loops
 // Long sections of code or repeated code loops can be moved to sub_task.h
@@ -55,12 +57,20 @@ namespace task
     void Loop2(){
         while(Serial.available()){
         sk_timer.start();
-        auto ori = sensors::update();
-        auto control_input = controller.compute(-ori.y,sk_timer.deltaT()) + 90.0f;
-        GRAPH("CONTROL",control_input,BOT);
-        //PRINT(control_input);
+        auto accel = sensors::getAccel(); 
+        auto gyro = sensors::getGyro(); 
+        gyro *= DEG2RAD;
+        accel /= 10.0f;
+        auto state = ori::resolve_orientation(accel,gyro,sk_timer.deltaT());
+        state *= RAD2DEG;
+        state *= 100.0f;
+        GRAPH("x",state.x,BOT);
+        GRAPH("y",state.y,BOT);
+        GRAPH("z",state.z,BOT);
+        auto control_input = controller.compute(-state.y,sk_timer.deltaT()) + 90.0f;
+        //GRAPH("CONTROL",control_input,BOT);
         END_LOG;
-        actuators::write(control_input);
+        //actuators::write(control_input);
         sk_timer.stop();
         }
     }
