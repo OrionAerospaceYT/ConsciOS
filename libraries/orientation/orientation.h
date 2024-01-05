@@ -9,105 +9,109 @@
 #define BETA sqrt(3.0f/4.0f) * GYRO_MEAN_ERROR
 
 namespace ori{
-    Quat q_est = Quat();
 
+    float q0 = 1.0f;
+    float q1 = 0.0f;
+    float q2 = 0.0f;
+    float q3 = 0.0f;
+
+
+    float invSqrt(float x) {
+        float halfx = 0.5f * x;
+        float y = x;
+        long i = *(long*)&y;
+        i = 0x5f3759df - (i>>1);
+        y = *(float*)&i;
+        y = y * (1.5f - (halfx * y * y));
+        y = y * (1.5f - (halfx * y * y));
+        return y;
+    }
     Vec resolve_orientation(Vec accel, Vec gyro, float dt){
-    
-        //Variables and constants
-        Quat q_est_prev(q_est);
-        Quat q_est_dot(0,0,0,0);            // used as a place holder in equations 42 and 43
-        //const struct quaternion q_g_ref = {0, 0, 0, 1};// equation (23), reference to field of gravity for gradient descent optimization (not needed because I used eq 25 instead of eq 21
-        Quat q_a(0.0f,accel);    // equation (24) raw acceleration values, needs to be normalized
-        
-        Vec F_g;                        // equation(15/21/25) objective function for gravity
-        BLA::Matrix<3,4> J_g;
-        
-        Quat gradient(0,0,0,0);
-        
-        /* Integrate angluar velocity to obtain position in angles. */
-        Quat q_w(0.0f,gyro);                   // equation (10), places gyroscope readings in a quaternion
-        
-        q_w = q_w * 0.5f;                // equation (12) dq/dt = (1/2)q*w
-        q_w = q_est_prev * q_w;
-        PRINT(gradient);
-        delay(10000);
-        /* NOTE
-        * Page 10 states equation (40) substitutes equation (13) into it. This seems false, as he actually
-        * substitutes equation (12), q_se_dot_w, not equation (13), q_se_w.
-        * 
-        * // quat_scalar(&q_w, deltaT);               // equation (13) integrates the angles velocity to position
-        * // quat_add(&q_w, q_w, q_est_prev);         // addition part of equation (13)
-        */
+        float recipNorm;
+        float s0, s1, s2, s3;
+        float qDot1, qDot2, qDot3, qDot4;
+        float _2q0, _2q1, _2q2, _2q3, _4q0, _4q1, _4q2 ,_8q1, _8q2, q0q0, q1q1, q2q2, q3q3;
+        float gx,gy,gz;
+        float ax,ay,az;
+        float beta = 0.1f;
+        gx = gyro.x;
+        gy = gyro.y;
+        gz = gyro.z;
+        ax = accel.x;
+        ay = accel.y;
+        az = accel.z;
+        // Convert gyroscope degrees/sec to radians/sec
+        gx *= 0.0174533f;
+        gy *= 0.0174533f;
+        gz *= 0.0174533f;
 
-        /* Compute the gradient by multiplying the jacobian matrix by the objective function. This is equation 20.
-        The Jacobian matrix, J, is a 3x4 matrix of partial derivatives for each quaternion component in the x y z axes
-        The objective function, F, is a 3x1 matrix for x y and z.
-        To multiply these together, the inner dimensions must match, so use J'.
-        I calculated "by hand" the transpose of J, so I will be using "hard coordinates" to get those values from J.
-        The matrix multiplcation can also be done hard coded to reduce code.
-        
-        Note: it is possible to compute the objective function with quaternion multiplcation functions, but it does not take into account the many zeros that cancel terms out and is not optimized like the paper shows
-        */
-        
-        q_a.normalize();              // normalize the acceleration quaternion to be a unit quaternion
-        //Compute the objective function for gravity, equation(15), simplified to equation (25) due to the 0's in the acceleration reference quaternion
-        F_g.x = 2.0f*(q_est_prev.i * q_est_prev.k - q_est_prev.w * q_est_prev.j) - q_a.i;
-        F_g.y = 2.0f*(q_est_prev.w * q_est_prev.i + q_est_prev.j* q_est_prev.k) - q_a.j;
-        F_g.z = 2.0f*(0.5f - q_est_prev.i * q_est_prev.i - q_est_prev.j * q_est_prev.j) - q_a.k;
-        
-        //Compute the Jacobian matrix, equation (26), for gravity
-        J_g(0,0) = -2.0f * q_est_prev.j;
-        J_g(0,1) =  2.0f * q_est_prev.k;
-        J_g(0,2) = -2.0f * q_est_prev.w;
-        J_g(0,3) =  2.0f * q_est_prev.i;
-        
-        J_g(1,0) = 2.0f * q_est_prev.i;
-        J_g(1,1) = 2.0f * q_est_prev.w;
-        J_g(1,2) = 2.0f * q_est_prev.k;
-        J_g(1,3) = 2.0f * q_est_prev.j;
-        
-        J_g(2,0) = 0.0f;
-        J_g(2,1) = -4.0f * q_est_prev.i;
-        J_g(2,2) = -4.0f * q_est_prev.j;
-        J_g(2,3) = 0.0f;
-        
-        // now computer the gradient, equation (20), gradient = J_g'*F_g
-        gradient.w = J_g(0,0) * F_g[0] + J_g(1,0) * F_g[1] + J_g(2,0) * F_g[2];
-        gradient.i = J_g(0,1) * F_g[0] + J_g(1,1) * F_g[1] + J_g(2,1) * F_g[2];
-        gradient.j = J_g(0,2) * F_g[0] + J_g(1,2) * F_g[1] + J_g(2,2) * F_g[2];
-        gradient.k = J_g(0,3) * F_g[0] + J_g(1,3) * F_g[1] + J_g(2,3) * F_g[2];
-        
-        // Normalize the gradient, equation (44)
-        gradient.normalize();
-    
-        /* This is the sensor fusion part of the algorithm.
-        Combining Gyroscope position angles calculated in the beginning, with the quaternion orienting the accelerometer to gravity created above.
-        Noticably this new quaternion has not be created yet, I have only calculated the gradient in equation (19).
-        Madgwick however uses assumptions with the step size and filter gains to optimize the gradient descent,
-            combining it with the sensor fusion in equations (42-44).
-        He says the step size has a var alpha, which he assumes to be very large.
-        This dominates the previous estimation in equation (19) to the point you can ignore it.
-        Eq. 36 has the filter gain Gamma, which is related to the step size and thus alpha. With alpha being very large,
-            you can make assumptions to simplify the fusion equatoin of eq.36.
-        Combining the simplification of the gradient descent equation with the simplification of the fusion equation gets you eq.
-        41 which can be subdivided into eqs 42-44.
-        */
-        PRINT(BETA); 
-        gradient = gradient * BETA;
-        q_est_dot = q_w - gradient;
-        q_est_dot = q_est_dot * dt;
-        q_est = q_est_prev + q_est_dot;
-        q_est.normalize();
+        // Rate of change of quaternion from gyroscope
+        qDot1 = 0.5f * (-q1 * gx - q2 * gy - q3 * gz);
+        qDot2 = 0.5f * (q0 * gx + q2 * gz - q3 * gy);
+        qDot3 = 0.5f * (q0 * gy - q1 * gz + q3 * gx);
+        qDot4 = 0.5f * (q0 * gz + q1 * gy - q2 * gx);
+
+        // Compute feedback only if accelerometer measurement valid (avoids NaN in accelerometer normalisation)
+        if(!((ax == 0.0f) && (ay == 0.0f) && (az == 0.0f))) {
+
+            // Normalise accelerometer measurement
+            recipNorm = invSqrt(ax * ax + ay * ay + az * az);
+            ax *= recipNorm;
+            ay *= recipNorm;
+            az *= recipNorm;
+
+            // Auxiliary variables to avoid repeated arithmetic
+            _2q0 = 2.0f * q0;
+            _2q1 = 2.0f * q1;
+            _2q2 = 2.0f * q2;
+            _2q3 = 2.0f * q3;
+            _4q0 = 4.0f * q0;
+            _4q1 = 4.0f * q1;
+            _4q2 = 4.0f * q2;
+            _8q1 = 8.0f * q1;
+            _8q2 = 8.0f * q2;
+            q0q0 = q0 * q0;
+            q1q1 = q1 * q1;
+            q2q2 = q2 * q2;
+            q3q3 = q3 * q3;
+
+            // Gradient decent algorithm corrective step
+            s0 = _4q0 * q2q2 + _2q2 * ax + _4q0 * q1q1 - _2q1 * ay;
+            s1 = _4q1 * q3q3 - _2q3 * ax + 4.0f * q0q0 * q1 - _2q0 * ay - _4q1 + _8q1 * q1q1 + _8q1 * q2q2 + _4q1 * az;
+            s2 = 4.0f * q0q0 * q2 + _2q0 * ax + _4q2 * q3q3 - _2q3 * ay - _4q2 + _8q2 * q1q1 + _8q2 * q2q2 + _4q2 * az;
+            s3 = 4.0f * q1q1 * q3 - _2q1 * ax + 4.0f * q2q2 * q3 - _2q2 * ay;
+            recipNorm = invSqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3); // normalise step magnitude
+            s0 *= recipNorm;
+            s1 *= recipNorm;
+            s2 *= recipNorm;
+            s3 *= recipNorm;
+
+            // Apply feedback step
+            qDot1 -= beta * s0;
+            qDot2 -= beta * s1;
+            qDot3 -= beta * s2;
+            qDot4 -= beta * s3;
+        }
+
+        // Integrate rate of change of quaternion to yield quaternion
+        q0 += qDot1 * dt;
+        q1 += qDot2 * dt;
+        q2 += qDot3 * dt;
+        q3 += qDot4 * dt;
+
+        // Normalise quaternion
+        recipNorm = invSqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
+        q0 *= recipNorm;
+        q1 *= recipNorm;
+        q2 *= recipNorm;
+        q3 *= recipNorm;
+
+        Quat temp = Quat(q0,q1,2,q3);
         Vec out;
-        q_est.toEulerVector(&out);
+        temp.toEulerVector(&out);
         return out;
-                                                    //(shown in diagram, plus always use unit quaternions for orientation)
-   
-}
+
+    }
 
 
-
-
-
-
-};
+};  

@@ -59,11 +59,8 @@ namespace task
         sk_timer.start();
         auto accel = sensors::getAccel(); 
         auto gyro = sensors::getGyro(); 
-        gyro *= DEG2RAD;
-        accel /= 10.0f;
         auto state = ori::resolve_orientation(accel,gyro,sk_timer.deltaT());
         state *= RAD2DEG;
-        state *= 100.0f;
         GRAPH("x",state.x,BOT);
         GRAPH("y",state.y,BOT);
         GRAPH("z",state.z,BOT);
