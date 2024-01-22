@@ -9,7 +9,7 @@
 // ------Internals----
 
 Timer sk_timer = Timer();
-SideKickState<> state_info = SideKickState<>();
+SideKickState state_info = SideKickState();
 
 
 
