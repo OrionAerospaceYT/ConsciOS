@@ -15,15 +15,16 @@
 namespace actuators{
 
   // Globals can be defined here
-
   void init(){
+    pinMode(11,INPUT);
+    pinMode(18,INPUT);
   }
 
   void write(){
-    stem::S1.write(90);
-    delay(100);
-    stem::S1.write(180);
-    delay(100);
+      GRAPH("11", digitalRead(11), TOP);
+      GRAPH("18", digitalRead(18),BOT);
+      stem::S1.write(180);
+      END_LOG;
   }
 
 }  // namespace actuators
