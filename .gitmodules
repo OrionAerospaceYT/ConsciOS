@@ -1,3 +1,3 @@
-[submodule "Macros"]
-	path = Macros
+[submodule "libraries/Macros"]
+	path = libraries/Macros
 	url = https://github.com/OrionAerospaceYT/Macros.git
