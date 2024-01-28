@@ -14,6 +14,8 @@ struct Quat {
 
     Quat(float w, float i, float j, float k) : w(w), i(i), j(j), k(k) {}
     Quat(const Quat &q) : w(q.w), i(q.i), j(q.j), k(q.k) {}
+    template <typename S>
+    Quat(float w, S vec): w(w),i(vec.x),j(vec.y),k(vec.z) {}
     Quat() = default;
     ~Quat() = default;
 
@@ -107,7 +109,7 @@ struct Quat {
 
     // Convert to Euler Angles vector
     template <typename S>
-    S toEulerVector(S* vec) {
+    S* toEulerVector(S* vec) {
         vec->x = atan2(2.0f * i * j - 2.0f * w * k,
                       2.0f * w * w + 2.0f * i * i - 1.0f);
         auto check = 2.0f * i * k + 2.0f * w * j;

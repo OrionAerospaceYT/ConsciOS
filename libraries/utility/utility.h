@@ -10,26 +10,38 @@
     internal::warnCheck(condition, #condition, __FILE__, __LINE__, message);
 
 // Graphing macros
+#define TERMINAL_BEGINNING "q8_Q7"
+#define TERMINAL_ENDING "I761r"
+#define GRAPHING_BEGINNING "l058~"
+#define GRAPHING_ENDING "zC43_"
 #define TOP ",1,"
 #define BOT ",2,"
 #define GRAPH(name, data, type) \
-    Serial.print("g(");         \
+    Serial.print(GRAPHING_BEGINNING);         \
     Serial.print(name);         \
     Serial.print(type);         \
     Serial.print(data);         \
-    Serial.print(")");
+    Serial.print(GRAPHING_ENDING);
 #define PRINT(text)     \
-    Serial.print("t("); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(text); \
-    Serial.print(")");
+    Serial.print(TERMINAL_ENDING);
 #define PRINTLN(text)     \
-    Serial.print("t("); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(text); \
-    Serial.println(")");
+    Serial.println(TERMINAL_ENDING);
 #define PRINTHEX(text)     \
-    Serial.print("t("); \
+    Serial.print(TERMINAL_BEGINNING); \
     Serial.print(text,HEX) \
-    Serial.println(")");
+    Serial.println(TERMINAL_ENDING);
+#define PRINTF(float, places)  \
+    Serial.print(TERMINAL_BEGINNING); \
+    Serial.print(float,places); \
+    Serial.print(TERMINAL_ENDING);
+#define PRINTFLN(float, places)  \
+    Serial.print(TERMINAL_BEGINNING); \
+    Serial.print(float,places); \
+    Serial.println(TERMINAL_ENDING);
 #define PRINTRAW(text) Serial.print(text);
 #define REC Serial.print("#r3cK");
 #define END_REC Serial.print("!r3Ck");

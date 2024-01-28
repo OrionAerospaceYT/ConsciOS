@@ -20,11 +20,12 @@ namespace actuators{
     pinMode(18,INPUT);
   }
 
-  void write(){
-      GRAPH("11", digitalRead(11), TOP);
-      GRAPH("18", digitalRead(18),BOT);
-      stem::S1.write(180);
-      END_LOG;
+  void write(float input){
+    PRINTLN(input);
+    stem::S1.write(input);
+    stem::S4.write(input);
+
+
   }
 
 }  // namespace actuators

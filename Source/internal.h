@@ -13,8 +13,6 @@
 #endif
 //-----Internals------
 
-Timer sk_timer = Timer();
-SideKickState<> state_info = SideKickState<>();
 
 namespace sm {
 //------INTERNAL-----
