@@ -41,3 +41,17 @@ float filter(float signal){
 	return out;
 }
 };
+
+
+//Complementary Filter for gyro and accel (single axis)
+struct ComplFilter{
+float previous_output = 0;
+float alpha = 0.95; //default value
+ComplFilter(float a) : alpha(a){}
+float filter(float acc_angle, float gyro_angle){
+  auto out = (alpha * (previous_output + gyro_angle)) + ((1.0f - alpha) * acc_angle);
+  previous_output = out;
+  return  out;
+}
+
+};
