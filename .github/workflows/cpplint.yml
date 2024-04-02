@@ -7,4 +7,4 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-python@v1
     - run: pip install cpplint
-    - run: cpplint --filter=-whitespace,-legal/copyright,-readability/braces,-build/include_subdir,-readability/casting --recursive .
+    - run: cpplint --exclude=/External --filter=-whitespace,-legal/copyright,-readability/braces,-build/include_subdir,-readability/casting --recursive .
