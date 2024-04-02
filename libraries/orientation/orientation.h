@@ -5,10 +5,10 @@
 #include "vector.h"
 #include "BasicLinearAlgebra.h"
 
-#define GYRO_MEAN_ERROR  PI * (5.0f / 180.0f) // 5 deg/s gyroscope measurement error (in rad/s)  *from paper*
+#define GYRO_MEAN_ERROR  PI * (5.0f / 180.0f)  // 5 deg/s gyroscope measurement error (in rad/s)  *from paper*
 #define BETA sqrt(3.0f/4.0f) * GYRO_MEAN_ERROR
 
-namespace ori{
+namespace ori {
 
     float q0 = 1.0f;
     float q1 = 0.0f;
@@ -26,13 +26,14 @@ namespace ori{
         y = y * (1.5f - (halfx * y * y));
         return y;
     }
-    Vec resolve_orientation(Vec accel, Vec gyro, float dt){
+
+    Vec resolve_orientation(Vec accel, Vec gyro, float dt) {
         float recipNorm;
         float s0, s1, s2, s3;
         float qDot1, qDot2, qDot3, qDot4;
-        float _2q0, _2q1, _2q2, _2q3, _4q0, _4q1, _4q2 ,_8q1, _8q2, q0q0, q1q1, q2q2, q3q3;
-        float gx,gy,gz;
-        float ax,ay,az;
+        float _2q0, _2q1, _2q2, _2q3, _4q0, _4q1, _4q2 , _8q1, _8q2, q0q0, q1q1, q2q2, q3q3;
+        float gx, gy, gz;
+        float ax, ay, az;
         float beta = 0.1f;
         gx = gyro.x;
         gy = gyro.y;
@@ -52,8 +53,7 @@ namespace ori{
         qDot4 = 0.5f * (q0 * gz + q1 * gy - q2 * gx);
 
         // Compute feedback only if accelerometer measurement valid (avoids NaN in accelerometer normalisation)
-        if(!((ax == 0.0f) && (ay == 0.0f) && (az == 0.0f))) {
-
+        if (!((ax == 0.0f) && (ay == 0.0f) && (az == 0.0f))) {
             // Normalise accelerometer measurement
             recipNorm = invSqrt(ax * ax + ay * ay + az * az);
             ax *= recipNorm;
@@ -80,7 +80,7 @@ namespace ori{
             s1 = _4q1 * q3q3 - _2q3 * ax + 4.0f * q0q0 * q1 - _2q0 * ay - _4q1 + _8q1 * q1q1 + _8q1 * q2q2 + _4q1 * az;
             s2 = 4.0f * q0q0 * q2 + _2q0 * ax + _4q2 * q3q3 - _2q3 * ay - _4q2 + _8q2 * q1q1 + _8q2 * q2q2 + _4q2 * az;
             s3 = 4.0f * q1q1 * q3 - _2q1 * ax + 4.0f * q2q2 * q3 - _2q2 * ay;
-            recipNorm = invSqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3); // normalise step magnitude
+            recipNorm = invSqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3);     // normalise step magnitude
             s0 *= recipNorm;
             s1 *= recipNorm;
             s2 *= recipNorm;
@@ -105,13 +105,10 @@ namespace ori{
         q1 *= recipNorm;
         q2 *= recipNorm;
         q3 *= recipNorm;
-
-        Quat temp = Quat(q0,q1,2,q3);
+        Quat temp = Quat(q0, q1, q2, q3);
         Vec out;
         temp.toEulerVector(&out);
         return out;
-
     }
 
-
-};  
+}  // namespace ori
