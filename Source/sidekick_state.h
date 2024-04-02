@@ -3,7 +3,6 @@
 #include "utility.h"
 #include "vector.h"
 
-template <typename T = float>
 struct SideKickState {
     Vec ypr;        // yaw pitch roll
     Vec ypr_rate;   // yaw pitch roll rates
