@@ -8,24 +8,19 @@
 
 // Thanks to Seed studio for their library which this is influenced by
 // https://github.com/Seeed-Studio/Grove_6Axis_Accelerometer_And_Gyroscope_BMI088/blob/master/BMI088.h
-// Note: consider making universal and useable outside sk framework...
-
-
 
 struct Imu{
-
     float accRange = 0.0f;
     float gyroRange = 0.0f;
 
-    Imu(){}
-    
-    void begin(){
+    Imu() {}
+    void begin() {
         setAccScaleRange(RANGE_6G);
         setAccOutputDataRate(ODR_100);
         setAccPoweMode(ACC_ACTIVE);
         setGyroScaleRange(RANGE_250);
         setGyroOutputDataRate(ODR_2000_BW_532);
-        setGyroPoweMode(GYRO_NORMAL); 
+        setGyroPoweMode(GYRO_NORMAL);
     }
 
     void setAccScaleRange(acc_scale_type_t range) {
@@ -38,25 +33,25 @@ struct Imu{
         } else if (range == RANGE_24G) {
             accRange = 24.0f * BMI088_G_CONST;
         }
-        auto check = internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_RANGE, (uint8_t)range);
-        sk_assert(check != 0,"INIT OF ONBOARD IMU FAILED");
+        auto check = internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_RANGE, (uint8_t)range);
+        sk_assert(check != 0, "INIT OF ONBOARD IMU FAILED");
     }
 
     void resetAcc(void) {
-        internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_SOFT_RESET, 0xB6);
+        internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_SOFT_RESET, 0xB6);
     }
 
     void resetGyro(void) {
-        internal::writeByte(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_SOFT_RESET, 0xB6);
+        internal::writeByte(&sk_internal_bus, BMI088_GYRO_ADDRESS, BMI088_GYRO_SOFT_RESET, 0xB6);
     }
 
     void setAccPoweMode(acc_power_type_t mode) {
         if (mode == ACC_ACTIVE) {
-            internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CTRl, 0x04);
-            internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CONF, 0x00);
+            internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CTRl, 0x04);
+            internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CONF, 0x00);
         } else if (mode == ACC_SUSPEND) {
-            internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CONF, 0x03);
-            internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CTRl, 0x00);
+            internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CONF, 0x03);
+            internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_PWR_CTRl, 0x00);
         }
     }
 
@@ -74,11 +69,11 @@ struct Imu{
     void setAccOutputDataRate(acc_odr_type_t odr) {
         uint8_t data = 0;
 
-        data = internal::readByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_CONF);
+        data = internal::readByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_CONF);
         data = data & 0xf0;
         data = data | (uint8_t)odr;
 
-        internal::writeByte(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_CONF, data);
+        internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_CONF, data);
     }
 
     void setGyroScaleRange(gyro_scale_type_t range) {
@@ -94,21 +89,20 @@ struct Imu{
             gyroRange = 125;
         }
 
-        internal::writeByte(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_RANGE, (uint8_t)range);
-
+        internal::writeByte(&sk_internal_bus, BMI088_GYRO_ADDRESS, BMI088_GYRO_RANGE, (uint8_t)range);
     }
 
     void setGyroOutputDataRate(gyro_odr_type_t odr) {
-        internal::writeByte(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_BAND_WIDTH, (uint8_t)odr);
+        internal::writeByte(&sk_internal_bus, BMI088_GYRO_ADDRESS, BMI088_GYRO_BAND_WIDTH, (uint8_t)odr);
         }
 
-    Vec getGyro(){
+    Vec getGyro() {
         Vec out;
         uint8_t buf[6] = {0};
         uint16_t gx = 0, gy = 0, gz = 0;
         float value = 0;
 
-        internal::read(&sk_internal_bus,BMI088_GYRO_ADDRESS, BMI088_GYRO_RATE_X_LSB, buf, 6);
+        internal::read(&sk_internal_bus, BMI088_GYRO_ADDRESS, BMI088_GYRO_RATE_X_LSB, buf, 6);
 
         gx = buf[0] | (buf[1] << 8);
         gy = buf[2] | (buf[3] << 8);
@@ -125,13 +119,13 @@ struct Imu{
         return out;
     }
 
-    Vec getAccel(){
+    Vec getAccel() {
         Vec out;
         uint8_t buf[6] = {0};
         uint16_t ax = 0, ay = 0, az = 0;
         float value = 0;
 
-        internal::read(&sk_internal_bus,BMI088_ACC_ADDRESS, BMI088_ACC_X_LSB, buf, 6);
+        internal::read(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_X_LSB, buf, 6);
 
         ax = buf[0] | (buf[1] << 8);
         ay = buf[2] | (buf[3] << 8);
@@ -159,5 +153,4 @@ struct Imu{
 
         return (sk_internal_bus.read() << 8) | sk_internal_bus.read();
     }
-
 };

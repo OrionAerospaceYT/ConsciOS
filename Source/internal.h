@@ -1,21 +1,21 @@
 #pragma once
 
-//-----Internals------
+// -----Internals------
 #include "utility.h"
 #include "task_flow.h"
 #include "time_handler.h"
 #include "sidekick_state.h"
-//Stem include wrapper 
+// Stem include wrapper 
 // NOTE: Not robust for regualr pico compiles
 #ifdef ARDUINO_ARCH_RP2040
 #include "stem.h"
 #include "skServo.h"
 #endif
-//-----Internals------
+// -----Internals------
 
 
 namespace sm {
-//------INTERNAL-----
+// ------INTERNAL-----
 // DO NOT TOUCH
 void SM_UPDATE_LOOP() {
     taskSchedule();
@@ -24,7 +24,8 @@ void SM_UPDATE_LOOP() {
 
 void SM_INIT() {
     Serial.begin(115200);
-    while(!Serial){}
+    // Wait for Gui connection
+    while (!Serial) {}
     taskInit();
     sk_internal_bus.begin();
     stem::S1.attach(PS1);
@@ -40,5 +41,5 @@ void SM_INIT() {
     stem::S11.attach(PS11);
     stem::S12.attach(PS12);
 }
-//------INTERNAL-----
+// ------INTERNAL-----
 }  // namespace sm

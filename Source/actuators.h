@@ -1,21 +1,18 @@
 #pragma once
 
-//-----Internals------
+// -----Internals------
 #include "actuator_struct.h"
 #include "utility.h"
-//-----Internals------
+// -----Internals------
 
 
 // Include your Actuator libraries here
 
-namespace actuators{
+namespace actuators {
 
   // Globals can be defined here
-  void init(){
-  }
+  void init() {}
 
-  void write(){
-
-  }
+  void write() {}
 
 }  // namespace actuators
