@@ -47,12 +47,12 @@ T LERP(const T min, const T max, const T interpolationPoint) {
 template <typename T>
 T SMOOTHLERP(const T min, const T max, const T interpolation_point) {
     auto t = interpolation_point * interpolation_point * (3.0f - 2.0f * interpolation_point);
-    return LERP(min,max,t);
+    return LERP(min, max, t);
 }
 
 // Maps a given value from one range to the other
 template <typename T>
-T MAP(T x, T input_start, T input_end, T output_start, T output_end){
+T MAP(T x, T input_start, T input_end, T output_start, T output_end) {
     int input_range = input_end - input_start;
     int output_range = output_end - output_start;
     return (x - input_start) * (output_range) / input_range + output_start;

@@ -3,12 +3,15 @@
 #include "./External/BasicLinearAlgebra.h"
 #include "SKmath.h"
 #include "utility.h"
+
 // L = dimension of input vector, M = dimension of measured vector, N =
 // dimension of state vector Add a warning that if the thing is only 1x1 that
 // using the singlekf located in skmath would be easier
+
+// NOTE: TO BE TESTED!!!!!
 template <int L, int M, int N>
 class Kalman {
-   public:
+ public:
     BLA::Matrix<N, N> A;    // State Space dynamics matrix
     BLA::Matrix<N, L> B;    // State Space input dynamics matrix
     BLA::Matrix<M, N> C;    // State Space output matrix
@@ -31,7 +34,7 @@ class Kalman {
         correct();
     }
 
-   private:
+ private:
     void predict() {
         q_pred = A * q_est + B * u;
         auto A_T = ~A;

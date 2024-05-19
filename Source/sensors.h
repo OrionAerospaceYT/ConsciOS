@@ -1,14 +1,15 @@
 #pragma once
-//-----Internals------
+
+// -----Internals------
 #include "utility.h"
 #include "sensor_struct.h"
-//-----Internals------
+// -----Internals------
 
 // Include your sensor libraries here
 
 namespace sensors {
-void init() {}
 
-void update() {}
+void init() {
+}
 
 }  // namespace sensors

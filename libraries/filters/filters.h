@@ -2,8 +2,8 @@
 
 // Simple filter definitions
 
-//Kalman filter for single data point/1dof systems
-//A lower Q value means more agressive filtering, R is the covariance of the sensor
+// Kalman filter for single data point/1dof systems
+// A lower Q value means more agressive filtering, R is the covariance of the sensor
 struct SingleKalman{
 float Q = 0;
 float R = 0;
@@ -13,8 +13,9 @@ float C = 1;
 float D = 0;
 float x_hat = 0;
 float P = 0;
-SingleKalman(float q, float r) : Q(q), R(r){}
-void setB(float b){B = b;}
+
+SingleKalman(float q, float r) : Q(q), R(r) {}
+void setB(float b) {B = b;}
 
 float filter(float Y, float U = 0){
   auto x_hat_new = A * x_hat + B * U;
@@ -25,21 +26,31 @@ float filter(float Y, float U = 0){
   x_hat = x_hat_new;
   return x_hat;
 }
-
 };
+
 
 // First Order IIR lowpass filter
 // Given alpha (filter coeffecient)
 struct LowPassFilter {
-    float previous_output = 0.0f;
-    float alpha = 0.0f;
-    explicit LowPassFilter(float a) { 
-        alpha = a; 
-    }
+float previous_output = 0;
+float alpha = 0;
+LowPassFilter(float a) : alpha(a) {}
+float filter(float signal) {
+  auto out = alpha * previous_output + (1.0f - alpha) * signal;
+  previous_output = out;
+  return out;
+}
+};
 
-    float filter(float signal) {
-        previous_output = alpha * previous_output + (1.0f - alpha) * signal;
-        return previous_output;
-    }
 
+// Complementary Filter for gyro and accel (single axis)
+struct ComplFilter{
+float previous_output = 0;
+float alpha = 0.95;  // default value
+ComplFilter(float a) : alpha(a) {}
+float filter(float acc_angle, float gyro_angle){
+  auto out = (alpha * (previous_output + gyro_angle)) + ((1.0f - alpha) * acc_angle);
+  previous_output = out;
+  return  out;
+}
 };

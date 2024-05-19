@@ -1,26 +1,18 @@
 #pragma once
 
-//-----Internals------
-
+// -----Internals------
 #include "actuator_struct.h"
 #include "utility.h"
-#include "lerp.h"
-//#include "internal_defs.h"
+// -----Internals------
 
-//-----Internals------
+
 // Include your Actuator libraries here
 
-
-namespace actuators{
+namespace actuators {
 
   // Globals can be defined here
+  void init() {}
 
-  void init(){
-
-    //test.attach(pins);
-  }
-
-  void write(){
-  }
+  void write() {}
 
 }  // namespace actuators

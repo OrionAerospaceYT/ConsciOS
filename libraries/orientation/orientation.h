@@ -56,20 +56,29 @@ struct Orientation {
         s2 *= anorm;
         s3 *= anorm;
 
-        const float beta = 0.1f;  // gyro measurement error
-        qdot.w -= beta * s0;
-        qdot.i -= beta * s1;
-        qdot.j -= beta * s2;
-        qdot.k -= beta * s3;
+            // Apply feedback step
+            qDot1 -= beta * s0;
+            qDot2 -= beta * s1;
+            qDot3 -= beta * s2;
+            qDot4 -= beta * s3;
+        }
 
-        base += qdot * dt;
-        base.normalize();
-        base.toEulerVector(ypr);
+        // Integrate rate of change of quaternion to yield quaternion
+        q0 += qDot1 * dt;
+        q1 += qDot2 * dt;
+        q2 += qDot3 * dt;
+        q3 += qDot4 * dt;
+
+        // Normalise quaternion
+        recipNorm = invSqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
+        q0 *= recipNorm;
+        q1 *= recipNorm;
+        q2 *= recipNorm;
+        q3 *= recipNorm;
+        Quat temp = Quat(q0, q1, q2, q3);
+        Vec out;
+        temp.toEulerVector(&out);
+        return out;
     }
 
-    // ultimate high level wrapper -> filters then resolves and updates each
-    // state maybe implement an Enum with different filters?? so the filter
-    // choice can be passed in?
-    void updateState() {}
-};
-*/
+}  // namespace ori

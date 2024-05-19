@@ -1,6 +1,6 @@
 #pragma once
 #include "utility.h"
-#include "skServo.h"
+//#include "skServo.h"
 
 template <typename R>
 struct Iterator {
@@ -23,10 +23,10 @@ struct Iterator {
     }
     friend bool operator==(const Iterator &a, const Iterator &b) {
         return a.m_ptr == b.m_ptr;
-    };
+    }
     friend bool operator!=(const Iterator &a, const Iterator &b) {
         return a.m_ptr != b.m_ptr;
-    };
+    }
 
     pointer m_ptr;
 };
@@ -38,7 +38,7 @@ struct Array {
     typedef Iterator<T> iterator;
     T data[Size];
     template <typename... Args>
-    explicit constexpr Array(const Args &...args) : data{args...}{}
+    explicit constexpr Array(const Args &...args) : data{args...} {}
     constexpr Array() : data{} {}
     T get(int i) {
         if (i < 0 || i > Size) {
@@ -70,4 +70,3 @@ struct Array {
     iterator begin() { return iterator(&data[0]); }
     iterator end() { return iterator(&data[Size]); }
 };
-
