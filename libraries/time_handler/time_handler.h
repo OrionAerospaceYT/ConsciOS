@@ -9,17 +9,16 @@ struct Timer {
     float t_finish = 0;
 
     Timer() {}
-    void start() { t_start = micros(); }
-    void stop() { t_finish = micros(); }
+    void start() { start_t = micros(); }
+    void stop() { finish_t = micros(); }
     float deltaT() {
-        if (t_finish == 0) {
+        if (finish_t == 0) {
             stop();
         }
-        return (t_finish - t_start) / 1000000.0f;
+        return (finish_t - start_t) / 1000000.0f;
     }
     void count() { cycles++; }
-    float getCycles() { return cycles; }
-    float getUpTime() { return micros() / 1000000.0; }
-    float getTime() { return (micros() - t_start) / 1000000.0; }
-
+    uint32_t getCycles() { return cycles; }
+    uint32_t getUpTime() { return micros() / 1000000.0; }
+    uint32_t getTime() { return (micros() - start_t) / 1000000.0; }
 };

@@ -1,6 +1,5 @@
 #pragma once 
 
-#include "sk_servo.h"
 #include "utility.h"
 #include "pin_mapping.h"
 

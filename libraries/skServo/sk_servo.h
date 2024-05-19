@@ -3,8 +3,11 @@
 #include "utility.h"
 #include "Wire.h"
 #include "sk_math.h"
-#include "multiplexer.h"
+
+#ifdef ARDUINO_ARCH_RP2040
 #include <mbed.h>
+#include "multiplexer.h"
+#endif
 
 /* NOTE: I'm breaking naming convention with this file 
          to make it swappable with Servo
