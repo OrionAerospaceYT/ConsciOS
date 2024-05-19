@@ -5,8 +5,8 @@
 
 struct Timer {
     float cycles = 0;
-    float t_start = 0;
-    float t_finish = 0;
+    float start_t = 0;
+    float finish_t = 0;
 
     Timer() {}
     void start() { start_t = micros(); }
