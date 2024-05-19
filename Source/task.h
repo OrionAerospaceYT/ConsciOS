@@ -24,22 +24,27 @@ namespace task {
     // Can be used for code that only runs once
     // This can also be run multiple times by changing the code flow in main.h
     void Setup() {
+
     }
 
     // Can be used to automatically test actuators
     // Very useful for quick plug and play testing
     void ActuatorTest() {
+
     }
 
     // Can be used to print sensor values and any other required calibration
     void Calibration() {
+
     }
 
     // Code that loops
     void Loop() {
+
     }
 
     void Loop2() {
+
     }
 
 }  // namespace task
