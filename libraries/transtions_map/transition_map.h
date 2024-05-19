@@ -1,9 +1,11 @@
 #pragma once
 #include "array.h"
 #include "utility.h"
+
 typedef void (*taskFunc)();
 #define LOOP_ONCE 'a'
-//-----Internals------
+
+// -----Internals------
 
 template <size_t Size>
 struct TransitionMap {
@@ -43,7 +45,6 @@ struct TransitionMap {
         if (entry_state == current_state && condition == 1) {
             current_state = exit_state;
         }
-        
         if (entry_state == current_state && condition == 'a') {
             current_state = exit_state;
         }

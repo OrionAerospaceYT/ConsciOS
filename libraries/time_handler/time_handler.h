@@ -21,4 +21,5 @@ struct Timer {
     float getCycles() { return cycles; }
     float getUpTime() { return micros() / 1000000.0; }
     float getTime() { return (micros() - t_start) / 1000000.0; }
+
 };

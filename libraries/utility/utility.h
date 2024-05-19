@@ -32,15 +32,15 @@
     Serial.println(TERMINAL_ENDING);
 #define PRINTHEX(text)     \
     Serial.print(TERMINAL_BEGINNING); \
-    Serial.print(text,HEX) \
+    Serial.print(text, HEX) \
     Serial.println(TERMINAL_ENDING);
 #define PRINTF(float, places)  \
     Serial.print(TERMINAL_BEGINNING); \
-    Serial.print(float,places); \
+    Serial.print(float, places); \
     Serial.print(TERMINAL_ENDING);
 #define PRINTFLN(float, places)  \
     Serial.print(TERMINAL_BEGINNING); \
-    Serial.print(float,places); \
+    Serial.print(float, places); \
     Serial.println(TERMINAL_ENDING);
 #define PRINTRAW(text) Serial.print(text);
 #define REC Serial.print("#r3cK");
@@ -65,7 +65,7 @@ void read(T bus, uint8_t addr, uint8_t reg, uint8_t* buf, uint16_t len) {
 }
 
 template <typename T>
-static int writeByte(T bus, uint8_t addr, uint8_t reg, uint8_t data){
+static int writeByte(T bus, uint8_t addr, uint8_t reg, uint8_t data) {
     bus->beginTransmission(addr);
     bus->write(reg);
     bus->write(data);
@@ -74,7 +74,7 @@ static int writeByte(T bus, uint8_t addr, uint8_t reg, uint8_t data){
 }
 
 template <typename T>
-static uint8_t readByte(T bus, uint8_t addr, uint8_t reg){
+static uint8_t readByte(T bus, uint8_t addr, uint8_t reg) {
     bus->beginTransmission(addr);
     bus->write(reg);
     bus->endTransmission();

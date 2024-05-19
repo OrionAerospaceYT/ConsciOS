@@ -5,12 +5,12 @@
 
 */
 
-#define ST0 0 //Steppers
+#define ST0 0  // Steppers
 #define ST1 1
 #define ST2 2
 #define ST3 3
 
-#define PS1 4 //Servos
+#define PS1 4  // Servos
 #define PS2 5
 #define PS3 6
 #define PS4 7
@@ -22,5 +22,6 @@
 #define PS10 13
 #define PS11 14
 #define PS12 15
+
 
 

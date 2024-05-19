@@ -6,8 +6,8 @@
 
 
 
-// im not sure if this is dumb but it feels dumb 
-namespace stem{
+// im not sure if this is dumb but it feels dumb
+namespace stem {
     skServo S1 = skServo();
     skServo S2 = skServo();
     skServo S3 = skServo();
