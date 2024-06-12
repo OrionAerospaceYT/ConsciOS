@@ -6,6 +6,135 @@
 // Conversions Taken From Madgwick Paper
 // https://www.researchgate.net/publication/221775760_Estimation_of_IMU_and_MARG_orientation_using_a_gradient_descent_algorithm
 
+struct Vec {
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    Vec(float a, float b, float c) : x(a), y(b), z(c) {}
+    Vec(float a, float b) : x(a), y(b), z(0) {}
+    ~Vec() = default;
+    Vec() = default;
+
+    // Arduino Override
+    operator String() const {
+        return String(x) + "," + String(y) + "," + String(z);
+    }
+
+    // OS stream overload
+    // friend std::ostream& operator<<(std::ostream& o, const Vec<T> &v){
+    // return o << v.x << ", " << v.y << ", " << v.z << std::endl;
+    //  }
+
+    float operator[](int i) {
+        if (i == 0) {
+            return x;
+        } else if (i == 1) {
+            return y;
+        } else if (i == 2) {
+            return z;
+        }
+        sk_warn(i > 2, "Trying to access element outside of vector, returning x");
+        return x;
+    }
+
+    float get(int i) {
+        if (i == 0) {
+            return x;
+        } else if (i == 1) {
+            return y;
+        } else if (i == 2) {
+            return z;
+        }
+        sk_warn(i > 2, "Trying to access element outside of vector, returning x");
+        return x;
+    }
+
+
+    // Basic Types
+    template <typename S>
+    Vec operator*(S f) {
+        return Vec(x * f, y * f, z * f);
+    }
+    template <typename S>
+    Vec operator/(S f) {
+        return Vec(x / f, y / f, z / f);
+    }
+    template <typename S>
+    Vec operator+(S f) {
+        return Vec(x + f, y + f, z + f);
+    }
+    template <typename S>
+    Vec operator-(S f) {
+        return Vec(x - f, y - f, z - f);
+    }
+
+    template <typename S>
+    void operator*=(S f) {
+        *this = *(this) * f;
+    }
+    template <typename S>
+    void operator/=(S f) {
+        *this = *(this) / f;
+    }
+
+
+    // Vector to Vector operations
+    Vec operator-(const Vec &v) { return Vec(x - v.x, y - v.y, z - v.z); }
+    Vec operator+=(const Vec &v) { return Vec(x += v.x, y += v.y, z += v.z); }
+
+    // element wise division
+    Vec operator/(const Vec &v) {
+        Vec r;
+        r.x = x / v.x;
+        r.y = y / v.y;
+        r.z = z / v.z;
+        return r;
+    }
+
+    // Cross product
+    Vec operator*(const Vec &v) {
+        Vec r;
+        r.x = (y * v.z - z * v.y);
+        r.y = (z * v.x - x * v.z);
+        r.z = (x * v.y - y * v.x);
+        return r;
+    }
+
+    // Vector to Vector Dot Product
+    float dot(const Vec &v) { return x * v.x + y * v.y + z * v.z; }
+
+    float magnitude() { return sqrt(x * x + y * y + z * z); }
+
+    void normalize() { *this = *this / magnitude(); }
+
+    void toDegrees() { *this = (*this) * (RAD2DEG); }
+
+    void toRadians() { *this = (*this) * (DEG2RAD); }
+
+    // bool functions
+    template <typename S>
+    bool operator<(const S f) {
+        return (x < f || y < f || z < f);
+    }
+    template <typename S>
+    bool operator>(const S f) {
+        return (x > f || y > f || z > f);
+    }
+
+    // BLA Matrix conversions
+    template <typename S>
+    Vec fromMat(const S &mat) {
+        return Vec(mat(0), mat(1), mat(2));
+    }
+    template <typename S>
+    S toMat(const S &mat) {
+        mat(0) = x;
+        mat(1) = y;
+        mat(2) = z;
+        return mat;
+    }
+};
+
 struct Quat {
     float w = 1;
     float i = 0;
@@ -14,8 +143,7 @@ struct Quat {
 
     Quat(float w, float i, float j, float k) : w(w), i(i), j(j), k(k) {}
     Quat(const Quat &q) : w(q.w), i(q.i), j(q.j), k(q.k) {}
-    template <typename S>
-    Quat(float w, S vec): w(w),i(vec.x),j(vec.y),k(vec.z) {}
+    Quat(float w, Vec vec): w(w), i(vec.x), j(vec.y), k(vec.z) {}
     Quat() = default;
     ~Quat() = default;
 
@@ -108,17 +236,16 @@ struct Quat {
     }
 
     // Convert to Euler Angles vector
-    template <typename S>
-    S* toEulerVector(S* vec) {
-        vec->x = atan2(2.0f * i * j - 2.0f * w * k,
+    Vec toEulerVector(Vec vec) {
+        vec.x = atan2(2.0f * i * j - 2.0f * w * k,
                       2.0f * w * w + 2.0f * i * i - 1.0f);
         auto check = 2.0f * i * k + 2.0f * w * j;
         if (abs(check) >= 1.0f) {
-            vec->y = -sk_math::SIGN(check) * PI / 2.0f;
+            vec.y = -sk_math::SIGN(check) * PI / 2.0f;
         } else {
-            vec->y = -asin(check);
+            vec.y = -asin(check);
         }
-        vec->z = atan2(2.0f * j * k - 2.0f * w * i,
+        vec.z = atan2(2.0f * j * k - 2.0f * w * i,
                       2.0f * w * w + 2.0f * k * k - 1.0f);
         return vec;
     }
@@ -144,8 +271,7 @@ struct Quat {
         return q;
     }
 
-    template <typename S>
-    Quat fromEuler(const S &v) {
+    Quat fromEuler(const Vec &v) {
         Quat q;
         q.w = cos(v.z * 0.5f) * cos(v.y * 0.5f) * cos(v.x * 0.5f) +
               sin(v.z * 0.5f) * sin(v.y * 0.5f) * sin(v.x * 0.5f);
@@ -181,3 +307,5 @@ struct Quat {
 
     void normalize() { *this = Quat((*this) / magnitude()); }
 };
+
+

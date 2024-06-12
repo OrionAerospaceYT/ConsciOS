@@ -1,7 +1,7 @@
 #pragma once
 
 #include "utility.h"
-#include "vector.h"
+#include "quat_vec.h"
 
 struct SideKickState {
     Vec ypr;        // yaw pitch roll
