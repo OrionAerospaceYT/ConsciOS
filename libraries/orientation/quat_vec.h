@@ -236,7 +236,8 @@ struct Quat {
     }
 
     // Convert to Euler Angles vector
-    Vec toEulerVector(Vec vec) {
+    Vec toEulerVector() {
+        Vec vec;
         vec.x = atan2(2.0f * i * j - 2.0f * w * k,
                       2.0f * w * w + 2.0f * i * i - 1.0f);
         auto check = 2.0f * i * k + 2.0f * w * j;

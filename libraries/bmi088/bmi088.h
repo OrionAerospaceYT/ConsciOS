@@ -2,8 +2,7 @@
 
 #include "utility.h"
 #include "bmi_definitions.h"
-#include "vector.h"
-
+#include "quat_vec.h"
 #include "stem.h"
 
 // Thanks to Seed studio for their library which this is influenced by
@@ -34,6 +33,7 @@ struct Imu{
             accRange = 24.0f * BMI088_G_CONST;
         }
         auto check = internal::writeByte(&sk_internal_bus, BMI088_ACC_ADDRESS, BMI088_ACC_RANGE, (uint8_t)range);
+        PRINTLN(check);
         sk_assert(check != 0, "INIT OF ONBOARD IMU FAILED");
     }
 
