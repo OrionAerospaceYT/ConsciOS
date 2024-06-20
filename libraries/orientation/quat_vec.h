@@ -252,8 +252,7 @@ struct Quat {
     }
 
     // Angular rate must be given in rad/s
-    template <typename S>
-    Quat fromAngularRate(const S &v) {
+    Quat fromAngularRate(const Vec v) {
         Quat r(0, v.x, v.y, v.z);
         return (*this * 0.5f) * r;
     }
