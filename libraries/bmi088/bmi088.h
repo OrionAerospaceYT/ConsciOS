@@ -2,8 +2,7 @@
 
 #include "utility.h"
 #include "bmi_definitions.h"
-#include "vector.h"
-
+#include "quat_vec.h"
 #include "stem.h"
 
 // Thanks to Seed studio for their library which this is influenced by
@@ -18,7 +17,7 @@ struct Imu{
         setAccScaleRange(RANGE_6G);
         setAccOutputDataRate(ODR_100);
         setAccPoweMode(ACC_ACTIVE);
-        setGyroScaleRange(RANGE_250);
+        setGyroScaleRange(RANGE_125);
         setGyroOutputDataRate(ODR_2000_BW_532);
         setGyroPoweMode(GYRO_NORMAL);
     }
@@ -87,6 +86,8 @@ struct Imu{
             gyroRange = 250;
         } else if (range == RANGE_125) {
             gyroRange = 125;
+        } else {
+            gyroRange = 125;  // setting to minimum value by default
         }
 
         internal::writeByte(&sk_internal_bus, BMI088_GYRO_ADDRESS, BMI088_GYRO_RANGE, (uint8_t)range);

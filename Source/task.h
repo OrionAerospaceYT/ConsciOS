@@ -9,6 +9,7 @@
 #include "time_handler.h"
 // -----Internals------
 
+#include "orientation.h"
 
 // Tasks go here-- this keeps the main file clean and focused on the "flow" of tasks
 // Our general functions will be defined here things like our main loops
@@ -20,27 +21,40 @@
 
 namespace task {
 
+    Timer timer;
+    Orientation ori;
     // Globals can be defined here
     // Can be used for code that only runs once
     // This can also be run multiple times by changing the code flow in main.h
     void Setup() {
+        PRINTLN("ASDAF");
 
     }
 
     // Can be used to automatically test actuators
     // Very useful for quick plug and play testing
     void ActuatorTest() {
+        PRINTLN("ASDAF");
 
     }
 
     // Can be used to print sensor values and any other required calibration
     void Calibration() {
+        PRINTLN("ASDAF");
 
     }
 
     // Code that loops
     void Loop() {
-
+        timer.start();
+        auto gyro = sensors::getGyro();
+        PRINTLN(gyro);
+        auto ypr = ori.gyroToYpr(gyro, timer.deltaT());
+        GRAPH("x", ypr.x, TOP);
+        GRAPH("y", ypr.y, TOP);
+        GRAPH("z", ypr.z, TOP);
+        END_LOG;
+        timer.stop();
     }
 
     void Loop2() {

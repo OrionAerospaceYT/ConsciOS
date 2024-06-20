@@ -15,6 +15,4 @@ SideKickState state_info = SideKickState();
 
 void SideKick() {
     Serial.begin(115200);
-    actuators::init();
-    sensors::init();
 }
