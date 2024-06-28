@@ -28,6 +28,7 @@ namespace task {
     // This can also be run multiple times by changing the code flow in main.h
     void Setup() {
         PRINTLN("ASDAF");
+        sensors::init();
 
     }
 
@@ -48,8 +49,9 @@ namespace task {
     void Loop() {
         timer.start();
         auto gyro = sensors::getGyro();
-        PRINTLN(gyro);
         auto ypr = ori.gyroToYpr(gyro, timer.deltaT());
+        actuators::update(ypr.y, ypr.z);
+        PRINTLN(ypr.y);
         GRAPH("x", ypr.x, TOP);
         GRAPH("y", ypr.y, TOP);
         GRAPH("z", ypr.z, TOP);

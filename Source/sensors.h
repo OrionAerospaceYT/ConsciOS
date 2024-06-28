@@ -17,7 +17,7 @@ void init() {
 }
 
 Vec getGyro() {
-    return bmi.getAccel();
+    return bmi.getGyro();
 }
 
 }  // namespace sensors
