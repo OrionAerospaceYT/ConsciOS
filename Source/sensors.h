@@ -12,12 +12,7 @@ namespace sensors {
 
 Imu bmi;
 
-void init() {
-    bmi.begin();
-}
+void init() {}
 
-Vec getGyro() {
-    return bmi.getAccel();
-}
-
+void update() {}
 }  // namespace sensors

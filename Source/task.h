@@ -21,44 +21,21 @@
 
 namespace task {
 
-    Timer timer;
-    Orientation ori;
     // Globals can be defined here
     // Can be used for code that only runs once
     // This can also be run multiple times by changing the code flow in main.h
-    void Setup() {
-        PRINTLN("ASDAF");
-
-    }
+    void Setup() {}
 
     // Can be used to automatically test actuators
     // Very useful for quick plug and play testing
-    void ActuatorTest() {
-        PRINTLN("ASDAF");
-
-    }
+    void ActuatorTest() {}
 
     // Can be used to print sensor values and any other required calibration
-    void Calibration() {
-        PRINTLN("ASDAF");
-
-    }
+    void Calibration() {}
 
     // Code that loops
-    void Loop() {
-        timer.start();
-        auto gyro = sensors::getGyro();
-        PRINTLN(gyro);
-        auto ypr = ori.gyroToYpr(gyro, timer.deltaT());
-        GRAPH("x", ypr.x, TOP);
-        GRAPH("y", ypr.y, TOP);
-        GRAPH("z", ypr.z, TOP);
-        END_LOG;
-        timer.stop();
-    }
+    void Loop() {}
 
-    void Loop2() {
-
-    }
+    void Loop2() {}
 
 }  // namespace task
