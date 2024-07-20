@@ -10,7 +10,6 @@
 #ifdef ARDUINO_ARCH_RP2040
 #include "stem.h"
 #include "skServo.h"
-#endif
 // -----Internals------
 
 
@@ -42,4 +41,19 @@ void SM_INIT() {
     stem::S12.attach(PS12);
 }
 // ------INTERNAL-----
+#else
+
+namespace sm {
+// DO NOT TOUCH
+void SM_UPDATE_LOOP() {
+    taskSchedule();
+}
+
+void SM_INIT() {
+    Serial.begin(115200);
+    // Wait for Gui connection
+    while (!Serial) {}
+    taskInit();
+}
+#endif
 }  // namespace sm
