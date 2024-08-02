@@ -17,7 +17,7 @@ struct Imu{
         setAccScaleRange(RANGE_6G);
         setAccOutputDataRate(ODR_100);
         setAccPoweMode(ACC_ACTIVE);
-        setGyroScaleRange(RANGE_125);
+        setGyroScaleRange(RANGE_2000);
         setGyroOutputDataRate(ODR_2000_BW_532);
         setGyroPoweMode(GYRO_NORMAL);
     }
