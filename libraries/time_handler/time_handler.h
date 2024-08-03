@@ -1,5 +1,4 @@
 #pragma once
-
 #include <Wire.h>
 #include "utility.h"
 
@@ -18,6 +17,12 @@ struct Timer {
         return (t_start - t_finish) / 1000000.0f;
     }
     void count() { cycles++; }
+    float getDeltaT() {
+        start();
+        float delta_t = deltaT();
+        stop();
+        return delta_t;
+     }
     float getCycles() { return cycles; }
     float getUpTime() { return micros() / 1000000.0; }
     float getTime() { return (micros() - t_start) / 1000000.0; }
