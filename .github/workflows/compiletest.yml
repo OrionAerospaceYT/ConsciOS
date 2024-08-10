@@ -15,7 +15,8 @@ jobs:
       run: |
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-        /home/linuxbrew/.linuxbrew/bin/brew doctor
+        cd /home/linuxbrew/.linuxbrew/bin
+        ./brew doctor
   
     - name: install arduino cl
       run: |
