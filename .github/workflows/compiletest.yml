@@ -15,10 +15,9 @@ jobs:
       run: |
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-        (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bashrc
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        ./opt/homebrew/bin/brew doctor
   
     - name: install arduino cl
       run: |
-          brew update
-          brew install arduino-cli
+           ./opt/homebrew/bin/brew update
+           ./opt/homebrew/bin/brew install arduino-cli
