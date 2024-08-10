@@ -2,14 +2,21 @@ name: ConsciosTest
 run-name: ${{ github.actor }} test
 on: [push]
 
-runs-on: ubuntu-latest
-steps:
-    - name: standard
-      run: sudo apt-get update
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
     - name: install brew
-    - uses: tecolicom/actions-use-homebrew-tools@v1
-        with:
-            tools: rcs
+      run: |
+          make --version
+          sudo apt install build-essential
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/marko/.profile
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew doctor
+
     - name: install arduino-cli
       run: |
           brew update
