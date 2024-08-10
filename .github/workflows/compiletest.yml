@@ -10,10 +10,9 @@ jobs:
     steps:
     - name: standard
       run: sudo apt-get update
+
     - name: install brew
-      uses: tecolicom/actions-use-homebrew-tools@v1
-      with:
-        tools: rcs
+      run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         
     - name: install arduino cl
       run: |
