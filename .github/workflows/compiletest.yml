@@ -11,7 +11,7 @@ jobs:
     - name: standard
       run: sudo apt-get update
     - name: install brew
-    - uses: tecolicom/actions-use-homebrew-tools@v1
+      uses: tecolicom/actions-use-homebrew-tools@v1
       with:
         tools: rcs
         
