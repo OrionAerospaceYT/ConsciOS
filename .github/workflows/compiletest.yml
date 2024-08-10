@@ -9,15 +9,10 @@ jobs:
 
     steps:
     - name: install brew
-      run: |
-          make --version
-          sudo apt install build-essential
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/marko/.profile
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew doctor
-
-    - name: install arduino-cli
+    - uses: tecolicom/actions-use-homebrew-tools@v1
+      with:
+        tools: rcs
+    - name: install arduino cli
       run: |
           brew update
           brew install arduino-cli
