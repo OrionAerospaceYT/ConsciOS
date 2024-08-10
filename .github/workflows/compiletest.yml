@@ -8,11 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: standard
+      run: sudo apt-get update
     - name: install brew
     - uses: tecolicom/actions-use-homebrew-tools@v1
       with:
         tools: rcs
-    - name: install arduino cli
+        
+    - name: install arduino cl
       run: |
           brew update
           brew install arduino-cli
