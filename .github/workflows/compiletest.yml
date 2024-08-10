@@ -1,0 +1,15 @@
+name: ConsciosTest
+run-name: ${{ github.actor }} test
+on: [push]
+
+steps:
+    - name: standard
+      run: |
+        sudo apt-get update
+    - uses: tecolicom/actions-use-homebrew-tools@v1
+        with:
+          tools: rcs
+    - name: install arduino cli
+      run: |
+          brew update
+          brew install arduino-cli
