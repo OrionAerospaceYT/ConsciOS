@@ -1,6 +1,5 @@
 #pragma once
 
-#include "utility.h"
 
 enum pintype { ANALOG, DIGITAL };
 struct SingleDataPointSensor {

@@ -45,7 +45,6 @@ struct ActuatorGroup : Array<T, Size> {
 
     void attach(int* pins) {
       for (int i = 0; i < Size; ++i) {
-          PRINT(i);
           a.data[i].attach(pins[i]);
       }
     }

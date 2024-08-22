@@ -1,4 +1,6 @@
 #pragma once 
+
+#include "macros.h"
 #include "sk_math.h"
 #include "array.h"
 #include "actuator_struct.h"
@@ -72,7 +74,6 @@ struct Lerp{
       }
       current_smooth += increment;
       a->write(output);
-      GRAPH("lerp", output, TOP);
       return false;
     }
 };

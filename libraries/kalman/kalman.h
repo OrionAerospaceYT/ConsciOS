@@ -2,7 +2,6 @@
 
 #include "./External/BasicLinearAlgebra.h"
 #include "SKmath.h"
-#include "utility.h"
 
 // L = dimension of input vector, M = dimension of measured vector, N =
 // dimension of state vector Add a warning that if the thing is only 1x1 that

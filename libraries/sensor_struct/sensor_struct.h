@@ -1,6 +1,5 @@
 #pragma once
 #include "array.h"
-#include "utility.h"
 
 template <typename T, typename R, size_t Size>
 struct SensorGroup : Array<T, Size> {

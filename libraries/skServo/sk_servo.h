@@ -1,6 +1,5 @@
 #pragma once 
 
-#include "utility.h"
 #include "Wire.h"
 #include "sk_math.h"
 

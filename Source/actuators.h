@@ -2,7 +2,7 @@
 
 // -----Internals------
 #include "actuator_struct.h"
-#include "utility.h"
+#include "macros.h"
 // -----Internals------
 
 

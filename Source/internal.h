@@ -1,7 +1,7 @@
 #pragma once
 
 // -----Internals------
-#include "utility.h"
+#include "macros.h"
 #include "task_flow.h"
 #include "time_handler.h"
 #include "sidekick_state.h"

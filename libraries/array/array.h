@@ -1,5 +1,5 @@
 #pragma once
-#include "utility.h"
+#include "macros.h"
 //#include "skServo.h"
 
 template <typename R>
@@ -42,7 +42,7 @@ struct Array {
     constexpr Array() : data{} {}
     T get(int i) {
         if (i < 0 || i > Size) {
-            sk_warn(i < 0 || i > Size, "Invalid Array Element")
+            //sk_warn(i < 0 || i > Size, "Invalid Array Element")
             return data[Size];
         } else {
             return data[i];
@@ -61,7 +61,7 @@ struct Array {
     }
     T operator[](int i) {
         if (i < 0 || i > Size) {
-            sk_warn(i < 0 || i > Size, "Invalid Array Element")
+            //sk_warn(i < 0 || i > Size, "Invalid Array Element")
             return data[Size];
         } else {
             return data[i];

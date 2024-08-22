@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utility.h"
+#include "macros.h"
 #include "bmp_definitions.h"
 
 #include "stem.h"

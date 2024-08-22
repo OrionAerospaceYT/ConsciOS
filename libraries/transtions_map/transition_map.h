@@ -1,6 +1,5 @@
 #pragma once
 #include "array.h"
-#include "utility.h"
 
 typedef void (*taskFunc)();
 #define LOOP_ONCE 'a'

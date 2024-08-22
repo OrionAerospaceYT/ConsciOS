@@ -1,5 +1,4 @@
 #pragma once
-#include "utility.h"
 #include "sk_math.h"
 #include "quat_vec.h"
 
