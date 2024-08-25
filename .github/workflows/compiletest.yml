@@ -8,16 +8,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: standard
-      run: sudo apt-get update
+    # The main unit testing action
+    - uses: actions/checkout@v4
+      with:
+        repositry: OrionAerospaceYT/SideKick
+        path: sk
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.8"
+  
+    - name: installer
+      run: python sk/Installer/installer.py
 
-    - name: install brew
-      run: |
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
-    - name: Setup Homebrew
-      uses: Homebrew/actions/setup-homebrew@master
-    - name: install arduino cl
-      run: |
-           brew update
-           brew install arduino-cli
