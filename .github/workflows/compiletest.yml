@@ -11,13 +11,8 @@ jobs:
     # The main unit testing action
     - uses: actions/checkout@v4
       with:
-        repositry: OrionAerospaceYT/SideKick
-        path: sk
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.8"
-  
+        repositry: adafruit/ci-arduino
+        path: ci 
     - name: installer
-      run: python sk/Installer/installer.py
+      run: bash ci/actions_install.sh
 
