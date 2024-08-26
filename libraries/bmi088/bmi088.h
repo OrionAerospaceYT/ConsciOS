@@ -1,6 +1,5 @@
 #pragma once
 
-#include "macros.h"
 #include "bmi_definitions.h"
 #include "quat_vec.h"
 #include "stem.h"

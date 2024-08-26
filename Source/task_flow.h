@@ -1,7 +1,7 @@
 #pragma once
 
 // -----Internals------
-#include "macros.h"
+#include "goose.h"
 #include "array.h"
 #include "transition_map.h"
 #include "task.h"

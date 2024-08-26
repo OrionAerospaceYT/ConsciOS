@@ -1,6 +1,5 @@
 #pragma once
 
-#include "macros.h"
 #include "sk_math.h"
 
 // Conversions Taken From Madgwick Paper
@@ -307,5 +306,3 @@ struct Quat {
 
     void normalize() { *this = Quat((*this) / magnitude()); }
 };
-
-
