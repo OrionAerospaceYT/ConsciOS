@@ -1,11 +1,10 @@
-#pragma once 
+#pragma once
 
-#include "macros.h"
 #include "mmc_definitions.h"
 #include "stem.h"
 #include "vector.h"
 
-// Thanks to Adafruit for their opensource library that elements of this are based on 
+// Thanks to Adafruit for their opensource library that elements of this are based on
 // https://github.com/adafruit/Adafruit_MMC56x3
 
 struct Mag{

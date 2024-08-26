@@ -1,6 +1,5 @@
-#pragma once 
+#pragma once
 
-#include "macros.h"
 #include "sk_math.h"
 #include "array.h"
 #include "actuator_struct.h"

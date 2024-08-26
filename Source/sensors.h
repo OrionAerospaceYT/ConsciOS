@@ -1,7 +1,7 @@
 #pragma once
 
 // -----Internals------
-#include "macros.h"
+#include "goose.h"
 #include "sensor_struct.h"
 // -----Internals------
 
