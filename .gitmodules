@@ -1,0 +1,6 @@
+[submodule "libraries/Macros"]
+	path = libraries/Macros
+	url = https://github.com/OrionAerospaceYT/goose.git
+[submodule "libraries/goose"]
+	path = libraries/goose
+	url = https://github.com/OrionAerospaceYT/goose.git
