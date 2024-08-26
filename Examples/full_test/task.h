@@ -4,11 +4,14 @@
 #include "sensors.h"
 #include "actuators.h"
 #include "sub_task.h"
-#include "goose.h"
-#include "control.h"
-#include "time_handler.h"
+#include "macros.h"
 // -----Internals------
 
+#include "control.h"
+#include "BasicLinearAlgebra.h"
+#include "filters.h"
+#include "kalman.h"
+#include "lerp.h"
 #include "orientation.h"
 
 // Tasks go here-- this keeps the main file clean and focused on the "flow" of tasks

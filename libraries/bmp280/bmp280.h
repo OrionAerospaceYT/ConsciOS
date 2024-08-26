@@ -1,6 +1,5 @@
 #pragma once
 
-#include "macros.h"
 #include "bmp_definitions.h"
 
 #include "stem.h"

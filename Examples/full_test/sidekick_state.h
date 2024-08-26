@@ -1,6 +1,6 @@
 #pragma once
 
-#include "goose.h"
+#include "macros.h"
 #include "quat_vec.h"
 
 struct SideKickState {

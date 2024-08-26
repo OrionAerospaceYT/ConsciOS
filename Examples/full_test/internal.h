@@ -1,11 +1,11 @@
 #pragma once
 
 // -----Internals------
-#include "goose.h"
+#include "macros.h"
 #include "task_flow.h"
 #include "time_handler.h"
 #include "sidekick_state.h"
-// Stem include wrapper
+// Stem include wrapper 
 // NOTE: Not robust for regualr pico compiles
 #ifdef ARDUINO_ARCH_RP2040
 #include "stem.h"
