@@ -1,3 +1,6 @@
 [submodule "libraries/goose"]
 	path = libraries/goose
 	url = https://github.com/OrionAerospaceYT/goose.git
+[submodule "goose"]
+	path = goose
+	url = https://github.com/OrionAerospaceYT/goose.git
